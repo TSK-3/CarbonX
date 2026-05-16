@@ -1,4 +1,4 @@
-import { Leaf, LogIn, ShieldCheck, Sprout, UserPlus } from "lucide-react";
+import { AlertCircle, Leaf, Loader2, LogIn, ShieldCheck, Sprout, UserPlus } from "lucide-react";
 import { useState } from "react";
 import { useAuth } from "../auth/AuthContext.jsx";
 
@@ -106,32 +106,44 @@ export function AuthPage() {
 
         <form className="space-y-4" onSubmit={submit}>
           {mode === "register" ? (
-            <label className="block space-y-1">
-              <span className="label">Name</span>
-              <input className="input" name="name" value={values.name} onChange={updateValue} />
-            </label>
+            <div className="space-y-1">
+              <label className="label" htmlFor="name">Name</label>
+              <input id="name" className="input" name="name" value={values.name} onChange={updateValue} />
+            </div>
           ) : null}
 
-          <label className="block space-y-1">
-            <span className="label">Phone</span>
-            <input className="input" name="phone" value={values.phone} onChange={updateValue} />
-          </label>
+          <div className="space-y-1">
+            <label className="label" htmlFor="phone">Phone</label>
+            <input id="phone" className="input" name="phone" value={values.phone} onChange={updateValue} />
+          </div>
 
-          <label className="block space-y-1">
-            <span className="label">Password</span>
+          <div className="space-y-1">
+            <label className="label" htmlFor="password">Password</label>
             <input
+              id="password"
               className="input"
               name="password"
               type="password"
               value={values.password}
               onChange={updateValue}
             />
-          </label>
+          </div>
 
-          {error ? <p className="rounded-lg bg-red-50 px-3 py-2 text-sm text-red-700">{error}</p> : null}
+          {error ? (
+            <p className="flex items-center gap-2 rounded-lg bg-red-50 px-3 py-2 text-sm text-red-700">
+              <AlertCircle size={16} />
+              {error}
+            </p>
+          ) : null}
 
           <button className="btn-primary w-full" disabled={loading} type="submit">
-            {mode === "register" ? <UserPlus size={17} /> : <LogIn size={17} />}
+            {loading ? (
+              <Loader2 className="animate-spin" size={17} />
+            ) : mode === "register" ? (
+              <UserPlus size={17} />
+            ) : (
+              <LogIn size={17} />
+            )}
             {loading ? "Please wait" : mode === "register" ? "Create Account" : "Log In"}
           </button>
         </form>
