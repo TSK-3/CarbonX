@@ -1,15 +1,15 @@
 export function Metric({ label, value, tone = "default" }) {
   const toneClass =
     tone === "green"
-      ? "bg-green-50 text-green-900"
+      ? "bg-secondary-container/20 text-secondary border-secondary-container/30 shadow-inner"
       : tone === "gold"
-        ? "bg-amber-50 text-amber-900"
-        : "bg-white text-ink";
+        ? "bg-tertiary-container/10 text-tertiary border-tertiary-container/20 shadow-inner"
+        : "bg-white text-primary border-outline-variant shadow-md";
 
   return (
-    <div className={`rounded-md border border-stone-200 p-4 ${toneClass}`}>
-      <p className="text-xs font-semibold uppercase tracking-wide text-stone-500">{label}</p>
-      <p className="mt-2 text-2xl font-bold">{value}</p>
+    <div className={`rounded-2xl border p-6 flex flex-col justify-between min-h-[140px] ${toneClass}`}>
+      <p className="text-[10px] font-black uppercase tracking-[0.15em] opacity-70">{label}</p>
+      <p className="mt-2 text-3xl font-black">{value}</p>
     </div>
   );
 }

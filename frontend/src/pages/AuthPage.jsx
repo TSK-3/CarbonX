@@ -1,9 +1,11 @@
-import { Leaf, LogIn, ShieldCheck, Sprout, UserPlus } from "lucide-react";
+import { Leaf, LogIn, ShieldCheck, Sprout, UserPlus, RotateCcw } from "lucide-react";
 import { useState } from "react";
 import { useAuth } from "../auth/AuthContext.jsx";
+import { useI18n } from "../i18n/I18nContext.jsx";
 
 export function AuthPage() {
   const { login, register } = useAuth();
+  const { t } = useI18n();
   const [mode, setMode] = useState("register");
   const [values, setValues] = useState({
     name: "Ramaiah",
@@ -37,7 +39,7 @@ export function AuthPage() {
 
   return (
     <main className="grid min-h-screen bg-surface lg:grid-cols-[1.05fr_0.95fr]">
-      <section className="relative hidden overflow-hidden bg-primary-container lg:block">
+      <section className="relative hidden overflow-hidden bg-primary lg:block">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_25%,rgba(152,181,163,0.35),transparent_28%),linear-gradient(135deg,#173124,#2d4739)]" />
         <div className="relative flex h-full flex-col justify-between p-12 text-white">
           <div className="flex items-center gap-3 text-2xl font-black">
@@ -45,19 +47,19 @@ export function AuthPage() {
             CarbonX
           </div>
           <div className="max-w-xl">
-            <p className="terra-kicker text-sage">Grounded Reliability</p>
+            <p className="text-xs font-bold uppercase tracking-[0.15em] text-on-primary-container">Grounded Reliability</p>
             <h1 className="mt-4 text-5xl font-black leading-tight">Turn verified land data into carbon opportunity.</h1>
-            <p className="mt-5 text-lg leading-8 text-sage">
+            <p className="mt-5 text-lg leading-8 text-on-primary-container">
               Register farm boundaries, estimate sequestration, and track credit readiness with a farmer-first workflow.
             </p>
           </div>
-          <div className="grid grid-cols-2 gap-4 text-sm text-sage">
-            <div className="rounded-xl border border-white/10 bg-white/5 p-4">
-              <ShieldCheck className="mb-3" size={22} />
+          <div className="grid grid-cols-2 gap-4 text-sm text-on-primary-container font-medium">
+            <div className="rounded-xl border border-white/10 bg-white/5 p-4 backdrop-blur-sm">
+              <ShieldCheck className="mb-3 text-white" size={22} />
               Secure farm records
             </div>
-            <div className="rounded-xl border border-white/10 bg-white/5 p-4">
-              <Sprout className="mb-3" size={22} />
+            <div className="rounded-xl border border-white/10 bg-white/5 p-4 backdrop-blur-sm">
+              <Sprout className="mb-3 text-white" size={22} />
               Carbon-ready estimates
             </div>
           </div>
@@ -66,75 +68,76 @@ export function AuthPage() {
 
       <section className="grid place-items-center px-5 py-10">
         <div className="w-full max-w-md">
-          <div className="mb-8 flex items-center gap-3 lg:hidden">
-            <span className="grid h-11 w-11 place-items-center rounded-lg bg-field text-white">
-              <Leaf size={24} />
+          <div className="mb-10 flex items-center gap-4 lg:hidden">
+            <span className="grid h-12 w-12 place-items-center rounded-xl bg-primary text-white shadow-xl">
+              <Leaf size={28} />
             </span>
             <div>
-              <h1 className="text-2xl font-black text-field">CarbonX</h1>
-              <p className="text-sm text-outline">Farmer carbon estimate portal</p>
+              <h1 className="text-2xl font-black text-primary">CarbonX</h1>
+              <p className="text-sm font-medium text-outline">Farmer carbon estimate portal</p>
             </div>
           </div>
 
-          <div className="terra-card p-6">
-            <div className="mb-6">
+          <div className="terra-card p-8 shadow-2xl">
+            <div className="mb-8">
               <p className="terra-kicker">Farmer access</p>
-              <h2 className="mt-2 text-3xl font-bold text-field">
+              <h2 className="mt-2 text-3xl font-bold text-primary">
                 {mode === "register" ? "Create your account" : "Welcome back"}
               </h2>
-              <p className="mt-2 text-sm leading-6 text-stone-600">
+              <p className="mt-2 text-sm leading-6 text-on-surface-variant font-medium">
                 Continue to your land registry, estimates, and verification tasks.
               </p>
             </div>
 
-        <div className="mb-5 grid grid-cols-2 gap-2 rounded-lg bg-surface-low p-1">
-          <button
-            className={`rounded-md px-3 py-2 text-sm font-semibold ${mode === "register" ? "bg-white text-field shadow-sm" : "text-outline"}`}
-            onClick={() => setMode("register")}
-            type="button"
-          >
-            Register
-          </button>
-          <button
-            className={`rounded-md px-3 py-2 text-sm font-semibold ${mode === "login" ? "bg-white text-field shadow-sm" : "text-outline"}`}
-            onClick={() => setMode("login")}
-            type="button"
-          >
-            Login
-          </button>
-        </div>
+            <div className="mb-6 grid grid-cols-2 gap-2 rounded-xl bg-surface-container p-1.5">
+              <button
+                className={`rounded-lg px-3 py-2.5 text-sm font-bold transition-all ${mode === "register" ? "bg-white text-primary shadow-sm" : "text-outline hover:text-primary"}`}
+                onClick={() => setMode("register")}
+                type="button"
+              >
+                Register
+              </button>
+              <button
+                className={`rounded-lg px-3 py-2.5 text-sm font-bold transition-all ${mode === "login" ? "bg-white text-primary shadow-sm" : "text-outline hover:text-primary"}`}
+                onClick={() => setMode("login")}
+                type="button"
+              >
+                Login
+              </button>
+            </div>
 
-        <form className="space-y-4" onSubmit={submit}>
-          {mode === "register" ? (
-            <label className="block space-y-1">
-              <span className="label">Name</span>
-              <input className="input" name="name" value={values.name} onChange={updateValue} />
-            </label>
-          ) : null}
+            <form className="space-y-5" onSubmit={submit}>
+              {mode === "register" ? (
+                <div className="space-y-1.5">
+                  <label className="label">"Full Name"</label>
+                  <input className="input" name="name" value={values.name} onChange={updateValue} placeholder="Enter your full name" />
+                </div>
+              ) : null}
 
-          <label className="block space-y-1">
-            <span className="label">Phone</span>
-            <input className="input" name="phone" value={values.phone} onChange={updateValue} />
-          </label>
+              <div className="space-y-1.5">
+                <label className="label">Phone</label>
+                <input className="input" name="phone" value={values.phone} onChange={updateValue} placeholder="Phone number" />
+              </div>
 
-          <label className="block space-y-1">
-            <span className="label">Password</span>
-            <input
-              className="input"
-              name="password"
-              type="password"
-              value={values.password}
-              onChange={updateValue}
-            />
-          </label>
+              <div className="space-y-1.5">
+                <label className="label">Password</label>
+                <input
+                  className="input"
+                  name="password"
+                  type="password"
+                  value={values.password}
+                  onChange={updateValue}
+                  placeholder="••••••••"
+                />
+              </div>
 
-          {error ? <p className="rounded-lg bg-red-50 px-3 py-2 text-sm text-red-700">{error}</p> : null}
+              {error ? <p className="rounded-xl bg-error-container p-3 text-sm font-semibold text-on-error-container">{error}</p> : null}
 
-          <button className="btn-primary w-full" disabled={loading} type="submit">
-            {mode === "register" ? <UserPlus size={17} /> : <LogIn size={17} />}
-            {loading ? "Please wait" : mode === "register" ? "Create Account" : "Log In"}
-          </button>
-        </form>
+              <button className="btn-primary h-14 w-full rounded-xl text-lg shadow-xl mt-4" disabled={loading} type="submit">
+                {loading ? <RotateCcw className="animate-spin" size={20} /> : mode === "register" ? <UserPlus size={20} /> : <LogIn size={20} />}
+                {loading ? "Please wait" : mode === "register" ? "Create Account" : "Log In"}
+              </button>
+            </form>
           </div>
         </div>
       </section>

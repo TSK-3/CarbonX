@@ -1,31 +1,36 @@
-import { AlertCircle, CheckCircle2, FileImage, UploadCloud } from "lucide-react";
+import { AlertCircle, CheckCircle2, FileImage, UploadCloud, ShieldCheck, ChevronRight, Info } from "lucide-react";
+import { useI18n } from "../i18n/I18nContext.jsx";
 
 function DocumentCard({ title, subtitle, status, body, actionLabel }) {
-  const statusTone =
-    status === "Verified"
-      ? "bg-sage-soft text-secondary"
-      : status === "Action Required"
-        ? "bg-red-100 text-red-700"
-        : "bg-surface-container text-stone-700";
+  const statusConfig = {
+    "Verified": "bg-secondary-container/50 text-secondary border-secondary-container",
+    "Action Required": "bg-error-container/30 text-error border-error-container",
+    "Pending": "bg-surface-container text-outline border-outline-variant"
+  };
+
+  const statusTone = statusConfig[status] || statusConfig["Pending"];
 
   return (
-    <div className="terra-card p-5">
-      <div className="flex items-start justify-between gap-4">
+    <div className="terra-card p-6 flex flex-col shadow-lg transition-all hover:shadow-xl">
+      <div className="flex items-start justify-between gap-4 mb-6">
         <div className="flex items-start gap-4">
-          <div className="rounded-xl bg-surface-low p-3 text-field">
-            <FileImage size={20} />
+          <div className="rounded-xl bg-surface-container p-3 text-primary">
+            <FileImage size={24} />
           </div>
           <div>
-            <h3 className="text-lg font-semibold text-field">{title}</h3>
-            <p className="text-sm text-stone-600">{subtitle}</p>
+            <h3 className="font-bold text-primary">{title}</h3>
+            <p className="text-xs font-medium text-on-surface-variant mt-0.5">{subtitle}</p>
           </div>
         </div>
-        <span className={`rounded-full px-3 py-1 text-xs font-semibold ${statusTone}`}>{status}</span>
+        <span className={`rounded-full px-3 py-1.5 text-[10px] font-black uppercase tracking-widest border ${statusTone}`}>
+            {status}
+        </span>
       </div>
-      <div className="mt-5 rounded-xl border border-outline-variant bg-surface-low p-6 text-center">
-        <UploadCloud className="mx-auto text-outline" size={22} />
-        <p className="mt-3 text-sm leading-6 text-stone-700">{body}</p>
-        <button className="btn-secondary mt-4" type="button">
+
+      <div className="flex-1 rounded-2xl border-2 border-dashed border-outline-variant bg-surface-container-low p-8 text-center flex flex-col items-center justify-center group cursor-pointer hover:bg-surface-container transition-colors">
+        <UploadCloud className="text-outline group-hover:text-primary transition-colors" size={32} />
+        <p className="mt-4 text-sm font-medium leading-relaxed text-on-surface-variant">{body}</p>
+        <button className="btn-secondary mt-6 h-10 px-6 rounded-lg text-xs" type="button">
           {actionLabel}
         </button>
       </div>
@@ -34,93 +39,119 @@ function DocumentCard({ title, subtitle, status, body, actionLabel }) {
 }
 
 export function VerificationPage() {
+  const { t } = useI18n();
+
   return (
-    <section className="mx-auto grid max-w-7xl gap-6 px-5 py-8 lg:grid-cols-[298px_1fr]">
-      <aside className="space-y-4">
-        <div className="terra-card p-6">
-          <AlertCircle className="text-field" size={18} />
-          <h2 className="mt-4 text-2xl font-semibold text-field">Why Verify?</h2>
-          <p className="mt-3 text-sm leading-7 text-stone-700">
+    <section className="mx-auto grid max-w-7xl gap-10 px-5 py-10 lg:grid-cols-[320px_1fr]">
+      <aside className="space-y-6">
+        <div className="terra-card p-8 bg-primary text-on-primary shadow-2xl">
+          <ShieldCheck className="text-white" size={32} />
+          <h2 className="mt-6 font-headline-md">Why Verify?</h2>
+          <p className="mt-4 text-sm font-medium leading-relaxed opacity-80">
             To certify your land for carbon credits, we must establish legal ownership and location accuracy.
           </p>
-          <div className="mt-5 space-y-3 text-sm text-stone-700">
-            <p>Institutional-grade validation</p>
-            <p>Stronger buyer confidence</p>
-            <p>Transparent payout readiness</p>
+          <div className="mt-8 space-y-4">
+            <div className="flex items-center gap-3 text-sm font-bold">
+                <div className="w-1.5 h-1.5 rounded-full bg-white" />
+                Institutional Validation
+            </div>
+            <div className="flex items-center gap-3 text-sm font-bold">
+                <div className="w-1.5 h-1.5 rounded-full bg-white" />
+                Buyer Confidence
+            </div>
+            <div className="flex items-center gap-3 text-sm font-bold">
+                <div className="w-1.5 h-1.5 rounded-full bg-white" />
+                Payout Readiness
+            </div>
           </div>
         </div>
-        <div className="terra-card p-4">
-          <p className="font-semibold text-field">Current Progress</p>
-          <div className="mt-3 h-2 rounded-full bg-surface-high">
-            <div className="h-2 w-2/3 rounded-full bg-field" />
+
+        <div className="terra-card p-6 shadow-md">
+          <p className="terra-kicker">Current Progress</p>
+          <div className="mt-4 h-3 rounded-full bg-surface-container overflow-hidden">
+            <div className="h-full w-2/3 rounded-full bg-primary shadow-[0_0_10px_rgba(23,49,36,0.3)]" />
           </div>
-          <div className="mt-2 flex justify-between text-xs text-stone-600">
-            <span>2 of 3 uploaded</span>
+          <div className="mt-3 flex justify-between text-xs font-black text-primary uppercase tracking-widest">
+            <span>2 of 3 verified</span>
             <span>67%</span>
           </div>
         </div>
       </aside>
 
-      <div>
-        <div className="mb-6">
-          <h1 className="text-4xl font-bold text-field">Land Ownership Documents</h1>
-          <p className="mt-2 text-stone-600">
-            Upload original scanned copies or clear photos of the following documents.
+      <div className="space-y-10">
+        <div>
+          <p className="terra-kicker">Documents</p>
+          <h1 className="mt-1 font-headline-lg text-primary">Land Ownership Proof</h1>
+          <p className="mt-2 font-body-md text-on-surface-variant max-w-2xl">
+            Upload original scanned copies or clear photos of the following documents to complete your profile.
           </p>
         </div>
 
-        <div className="grid gap-4 lg:grid-cols-2">
+        <div className="grid gap-6 lg:grid-cols-2">
           <DocumentCard
-            actionLabel="View verified copy"
-            body="Land title already uploaded and accepted."
+            actionLabel="View Verification"
+            body="Land title successfully verified by our team."
             status="Verified"
             subtitle="Primary ownership record"
-            title="Land Title"
+            title="Land Title (Patta)"
           />
           <DocumentCard
-            actionLabel="Upload ID proof"
-            body="Upload Aadhaar card or alternate ID for farmer verification."
+            actionLabel="Upload Aadhaar"
+            body="Upload Aadhaar card for farmer identity verification."
             status="Pending"
             subtitle="Identity verification"
-            title="Aadhaar / ID Proof"
+            title="Farmer ID Proof"
           />
         </div>
 
-        <div className="mt-4 terra-card p-5">
-          <div className="flex items-start justify-between gap-4">
-            <div>
-              <h3 className="text-lg font-semibold text-field">Tax Receipts</h3>
-              <p className="text-sm text-stone-600">Recent land revenue or tax documentation</p>
+        <div className="terra-card p-8 shadow-lg border-2 border-primary/5">
+          <div className="flex items-start justify-between gap-4 mb-8">
+            <div className="flex items-center gap-4">
+                <div className="rounded-xl bg-surface-container p-3 text-primary">
+                    <FileImage size={24} />
+                </div>
+                <div>
+                    <h3 className="font-bold text-primary">Tax Receipts</h3>
+                    <p className="text-xs font-medium text-on-surface-variant mt-0.5">Recent land revenue documentation</p>
+                </div>
             </div>
-            <span className="rounded-full bg-red-100 px-3 py-1 text-xs font-semibold text-red-700">
+            <span className="rounded-full bg-error-container/30 border border-error-container px-3 py-1.5 text-[10px] font-black uppercase tracking-widest text-error">
               Action Required
             </span>
           </div>
-          <div className="mt-5 grid gap-4 lg:grid-cols-2">
-            <div className="rounded-xl border border-outline-variant bg-surface-low p-6 text-center">
-              <UploadCloud className="mx-auto text-outline" size={22} />
-              <p className="mt-3 text-sm text-stone-700">Upload a high-resolution tax receipt image or PDF.</p>
+
+          <div className="grid gap-8 lg:grid-cols-2">
+            <div className="rounded-2xl border-2 border-dashed border-outline-variant bg-surface-container-low p-10 text-center flex flex-col items-center justify-center group cursor-pointer hover:bg-surface-container transition-colors">
+              <UploadCloud className="text-outline group-hover:text-primary transition-colors" size={32} />
+              <p className="mt-4 text-sm font-medium text-on-surface-variant">Re-upload tax receipt</p>
             </div>
-            <div className="rounded-xl border border-red-200 bg-red-50 p-6">
-              <div className="flex items-center gap-2 text-red-700">
-                <AlertCircle size={18} />
-                <p className="font-semibold">Issue detected</p>
+
+            <div className="rounded-2xl bg-error-container/20 p-8 border border-error-container/30">
+              <div className="flex items-center gap-3 text-error">
+                <AlertCircle size={24} />
+                <p className="font-black uppercase tracking-widest text-xs">Issue Detected</p>
               </div>
-              <p className="mt-3 text-sm leading-6 text-red-700">
-                The 2023 document is blurry and the survey number is not legible. Please upload a sharper image.
+              <p className="mt-4 text-sm leading-relaxed text-error font-medium">
+                The 2023 document is blurry and the survey number is not legible. Please upload a high-resolution image of the original document.
               </p>
             </div>
           </div>
         </div>
 
-        <div className="mt-6 flex items-center justify-between rounded-xl border border-outline-variant bg-white px-6 py-5">
-          <div>
-            <p className="text-lg font-semibold text-field">Need help with verification?</p>
-            <p className="text-sm text-stone-600">Our support team can guide you through accepted document formats.</p>
+        <div className="flex flex-col md:flex-row items-center justify-between rounded-3xl bg-secondary-container/20 border-2 border-secondary-container/30 px-10 py-8 gap-6 shadow-inner">
+          <div className="flex items-center gap-6">
+            <div className="w-16 h-16 rounded-2xl bg-secondary text-white flex items-center justify-center shadow-lg">
+                <Info size={32} />
+            </div>
+            <div>
+                <p className="text-lg font-black text-primary">Need help with verification?</p>
+                <p className="text-sm font-medium text-on-surface-variant">Our support team can guide you through accepted document formats.</p>
+            </div>
           </div>
-          <button className="btn-primary" type="button">
-            <CheckCircle2 size={18} />
-            Contact support
+          <button className="btn-primary h-14 px-8 rounded-xl shadow-lg whitespace-nowrap group" type="button">
+            <CheckCircle2 size={20} />
+            Contact Support
+            <ChevronRight size={18} className="group-hover:translate-x-1 transition-transform" />
           </button>
         </div>
       </div>

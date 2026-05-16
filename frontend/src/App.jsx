@@ -19,6 +19,15 @@ function PublicOnlyRoute({ children }) {
   return token ? <Navigate to="/" replace /> : children;
 }
 
+function ProfilePlaceholder() {
+    return (
+        <div className="p-10 text-center">
+            <h1 className="text-2xl font-bold text-primary">Profile Page</h1>
+            <p className="text-on-surface-variant mt-2">Personal information and account settings will be here.</p>
+        </div>
+    )
+}
+
 export function App() {
   return (
     <BrowserRouter>
@@ -46,6 +55,7 @@ export function App() {
             <Route path="farms/:farmId/review" element={<SubmissionReviewPage />} />
             <Route path="verification" element={<VerificationPage />} />
             <Route path="earnings" element={<EarningsPage />} />
+            <Route path="profile" element={<ProfilePlaceholder />} />
           </Route>
         </Routes>
       </AuthProvider>
