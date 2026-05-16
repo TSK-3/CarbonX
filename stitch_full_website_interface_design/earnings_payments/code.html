@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>CarbonX - Earnings &amp; Payments</title>
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-container-low": "#f5f3f0",
+                        "surface": "#fbf9f6",
+                        "on-secondary-fixed": "#07200b",
+                        "on-background": "#1b1c1a",
+                        "tertiary-container": "#663500",
+                        "on-primary-fixed": "#062014",
+                        "background": "#fbf9f6",
+                        "outline-variant": "#c2c8c2",
+                        "outline": "#727973",
+                        "on-primary-container": "#98b5a3",
+                        "inverse-primary": "#b0cdbb",
+                        "surface-dim": "#dbdad7",
+                        "inverse-surface": "#30312f",
+                        "secondary-fixed": "#ccebc8",
+                        "tertiary-fixed-dim": "#ffb77d",
+                        "primary-fixed-dim": "#b0cdbb",
+                        "on-surface": "#1b1c1a",
+                        "on-tertiary": "#ffffff",
+                        "on-secondary": "#ffffff",
+                        "on-error-container": "#93000a",
+                        "secondary": "#4a654a",
+                        "primary": "#173124",
+                        "on-primary": "#ffffff",
+                        "error": "#ba1a1a",
+                        "surface-tint": "#496455",
+                        "surface-container-high": "#eae8e5",
+                        "primary-container": "#2d4739",
+                        "on-error": "#ffffff",
+                        "tertiary-fixed": "#ffdcc3",
+                        "surface-container-highest": "#e4e2df",
+                        "on-surface-variant": "#424844",
+                        "on-secondary-fixed-variant": "#334d34",
+                        "secondary-fixed-dim": "#b0ceae",
+                        "secondary-container": "#ccebc8",
+                        "on-tertiary-container": "#fe942c",
+                        "on-tertiary-fixed-variant": "#6e3900",
+                        "surface-variant": "#e4e2df",
+                        "inverse-on-surface": "#f2f0ed",
+                        "on-secondary-container": "#506b50",
+                        "error-container": "#ffdad6",
+                        "tertiary": "#462200",
+                        "surface-bright": "#fbf9f6",
+                        "on-primary-fixed-variant": "#324c3e",
+                        "on-tertiary-fixed": "#2f1500",
+                        "surface-container-lowest": "#ffffff",
+                        "primary-fixed": "#ccead6",
+                        "surface-container": "#efeeeb"
+                    },
+                    "fontFamily": {
+                        "headline-lg": ["Public Sans"],
+                        "label-sm": ["Public Sans"],
+                        "headline-md": ["Public Sans"],
+                        "body-md": ["Public Sans"],
+                        "body-lg": ["Public Sans"]
+                    },
+                    "fontSize": {
+                        "headline-lg": ["32px", {"lineHeight": "1.2", "fontWeight": "700"}],
+                        "label-sm": ["14px", {"lineHeight": "1.4", "letterSpacing": "0.02em", "fontWeight": "600"}],
+                        "headline-md": ["24px", {"lineHeight": "1.3", "fontWeight": "600"}],
+                        "body-md": ["16px", {"lineHeight": "1.5", "fontWeight": "400"}],
+                        "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+<body class="bg-background font-body-md text-on-background min-h-screen">
+<!-- TopAppBar -->
+<header class="flex justify-between items-center w-full px-5 h-16 bg-stone-50 border-b border-gray-200 shadow-sm sticky top-0 z-50">
+<div class="flex items-center gap-8">
+<span class="text-xl font-bold text-[#2D4739] font-public-sans tracking-tight">CarbonX</span>
+<nav class="hidden md:flex items-center gap-6">
+<a class="text-stone-500 hover:bg-stone-100 transition-colors duration-200 px-3 py-2 rounded-lg font-label-sm" href="#">Dashboard</a>
+<a class="text-stone-500 hover:bg-stone-100 transition-colors duration-200 px-3 py-2 rounded-lg font-label-sm" href="#">Land</a>
+<a class="text-stone-500 hover:bg-stone-100 transition-colors duration-200 px-3 py-2 rounded-lg font-label-sm" href="#">Documents</a>
+<a class="text-[#2D4739] font-bold font-label-sm px-3 py-2 rounded-lg bg-stone-100" href="#">Earnings</a>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<button class="p-2 text-stone-500 hover:bg-stone-100 rounded-full transition-colors">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+<button class="p-2 text-stone-500 hover:bg-stone-100 rounded-full transition-colors">
+<span class="material-symbols-outlined" data-icon="help_outline">help_outline</span>
+</button>
+<div class="h-10 w-10 rounded-full overflow-hidden border border-outline-variant bg-surface-container">
+<img alt="Farmer profile avatar" class="h-full w-full object-cover" data-alt="A close-up, high-quality portrait of a weathered but smiling Indian farmer wearing a traditional light-colored turban. The background is a soft-focus lush green field during the golden hour, creating a warm and dependable atmosphere. The lighting is natural and cinematic, emphasizing the texture of the skin and the organic feel of the agricultural setting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAM08kQjdq8P6Qs0kkGeZhWWx_UcVxeAVn3tszhF7SsMvun8IlrF8eccBWmZRJ9kNIWbb2lFoLHOUmqJ8q5-vjXrbmOiLRyDxOtV5PFG_ic5aLWsCHZe9TiC4MfIanoQucTs4C5yCgg9VvGPE-8G59SKk40iAZkq9bjFt7--r3oXZvmU7AMUkaBm_ntmEEOXXVul68I8i_wIrtqMDfB4MRc_aXhm0awM8EKltI1Ec0Wdko-WRYHnyEfpaCqtCTUOiVi2bEhsXBzTVw"/>
+</div>
+</div>
+</header>
+<main class="max-w-7xl mx-auto px-margin py-md pb-32">
+<!-- Dashboard Header -->
+<div class="flex flex-col md:flex-row md:items-end justify-between mb-lg gap-gutter">
+<div>
+<h1 class="font-headline-lg text-primary mb-xs">Earnings Overview</h1>
+<p class="text-on-surface-variant font-body-md max-w-2xl">Track your carbon credit payouts and manage your linked agricultural enterprise accounts.</p>
+</div>
+<button class="bg-primary-container text-on-primary border-none py-3 px-6 rounded-lg font-label-sm flex items-center justify-center gap-2 hover:opacity-90 active:scale-95 transition-all shadow-sm">
+<span class="material-symbols-outlined" data-icon="account_balance_wallet">account_balance_wallet</span>
+                Withdraw Funds
+            </button>
+</div>
+<!-- Bento Grid Layout -->
+<div class="grid grid-cols-1 md:grid-cols-12 gap-gutter">
+<!-- Balance Card -->
+<div class="md:col-span-4 flex flex-col gap-gutter">
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-md shadow-sm">
+<span class="text-secondary font-label-sm uppercase tracking-wider">Estimated Balance</span>
+<div class="mt-base flex items-baseline gap-2">
+<span class="text-[40px] font-bold text-primary">₹2.4L</span>
+<span class="text-on-tertiary-container font-label-sm bg-tertiary-fixed px-2 py-0.5 rounded-full">+12% vs last month</span>
+</div>
+<div class="mt-md space-y-3">
+<div class="flex justify-between text-body-md">
+<span class="text-on-surface-variant">Available for withdrawal</span>
+<span class="font-semibold text-on-surface">₹1.85L</span>
+</div>
+<div class="flex justify-between text-body-md">
+<span class="text-on-surface-variant">Pending Verification</span>
+<span class="font-semibold text-on-surface">₹55K</span>
+</div>
+</div>
+</div>
+<!-- Linked Accounts -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-md shadow-sm">
+<div class="flex justify-between items-center mb-md">
+<h3 class="font-headline-md text-primary text-[18px]">Payment Methods</h3>
+<button class="text-primary font-label-sm hover:underline">Add New</button>
+</div>
+<div class="space-y-gutter">
+<!-- Account 1 -->
+<div class="flex items-center gap-4 p-sm border border-outline-variant rounded-lg bg-surface-container-low">
+<div class="h-10 w-10 flex items-center justify-center bg-white rounded-md border border-outline-variant">
+<span class="material-symbols-outlined text-primary" data-icon="account_balance">account_balance</span>
+</div>
+<div class="flex-1">
+<p class="font-label-sm text-on-surface">State Bank of India</p>
+<p class="text-[12px] text-on-surface-variant">•••• 4821</p>
+</div>
+<span class="material-symbols-outlined text-on-primary-container" data-icon="verified" data-weight="fill" style="font-variation-settings: 'FILL' 1;">verified</span>
+</div>
+<!-- Account 2 -->
+<div class="flex items-center gap-4 p-sm border border-outline-variant rounded-lg bg-surface-container-low opacity-80">
+<div class="h-10 w-10 flex items-center justify-center bg-white rounded-md border border-outline-variant">
+<span class="material-symbols-outlined text-primary" data-icon="payments">payments</span>
+</div>
+<div class="flex-1">
+<p class="font-label-sm text-on-surface">HDFC Enterprise</p>
+<p class="text-[12px] text-on-surface-variant">•••• 9012</p>
+</div>
+<span class="text-[10px] font-bold uppercase text-tertiary px-2 py-0.5 bg-tertiary-fixed rounded">Pending</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Transaction History Card -->
+<div class="md:col-span-8 bg-surface-container-lowest border border-outline-variant rounded-xl shadow-sm overflow-hidden flex flex-col">
+<div class="p-md border-b border-outline-variant flex justify-between items-center bg-surface-container-lowest">
+<h3 class="font-headline-md text-primary">Transaction History</h3>
+<div class="flex gap-2">
+<button class="p-2 border border-outline-variant rounded-lg text-on-surface-variant hover:bg-surface-container transition-colors">
+<span class="material-symbols-outlined" data-icon="filter_list">filter_list</span>
+</button>
+<button class="p-2 border border-outline-variant rounded-lg text-on-surface-variant hover:bg-surface-container transition-colors">
+<span class="material-symbols-outlined" data-icon="download">download</span>
+</button>
+</div>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-surface-container-low text-on-surface-variant">
+<th class="px-md py-sm font-label-sm border-b border-outline-variant">Date</th>
+<th class="px-md py-sm font-label-sm border-b border-outline-variant">Description</th>
+<th class="px-md py-sm font-label-sm border-b border-outline-variant">Credits (tCO2e)</th>
+<th class="px-md py-sm font-label-sm border-b border-outline-variant">Amount</th>
+<th class="px-md py-sm font-label-sm border-b border-outline-variant text-right">Status</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-outline-variant">
+<tr class="hover:bg-surface-container-lowest transition-colors">
+<td class="px-md py-md text-on-surface-variant font-body-md">Oct 12, 2023</td>
+<td class="px-md py-md">
+<div class="flex flex-col">
+<span class="font-semibold text-on-surface">Q3 Soil Carbon Sequestration</span>
+<span class="text-[12px] text-on-surface-variant">Plot #422 - Arable Land</span>
+</div>
+</td>
+<td class="px-md py-md font-body-md">45.2</td>
+<td class="px-md py-md font-bold text-primary">₹62,400</td>
+<td class="px-md py-md text-right">
+<span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-secondary-container text-on-secondary-container font-label-sm">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary"></span>
+                                        Completed
+                                    </span>
+</td>
+</tr>
+<tr class="hover:bg-surface-container-lowest transition-colors">
+<td class="px-md py-md text-on-surface-variant font-body-md">Sep 15, 2023</td>
+<td class="px-md py-md">
+<div class="flex flex-col">
+<span class="font-semibold text-on-surface">Agroforestry Bonus Payout</span>
+<span class="text-[12px] text-on-surface-variant">Boundary Plantation Verification</span>
+</div>
+</td>
+<td class="px-md py-md font-body-md">12.8</td>
+<td class="px-md py-md font-bold text-primary">₹18,500</td>
+<td class="px-md py-md text-right">
+<span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-secondary-container text-on-secondary-container font-label-sm">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary"></span>
+                                        Completed
+                                    </span>
+</td>
+</tr>
+<tr class="hover:bg-surface-container-lowest transition-colors">
+<td class="px-md py-md text-on-surface-variant font-body-md">Aug 28, 2023</td>
+<td class="px-md py-md">
+<div class="flex flex-col">
+<span class="font-semibold text-on-surface">Carbon Market Adjustments</span>
+<span class="text-[12px] text-on-surface-variant">Verified by Verra Auditor</span>
+</div>
+</td>
+<td class="px-md py-md font-body-md">31.5</td>
+<td class="px-md py-md font-bold text-primary">₹43,100</td>
+<td class="px-md py-md text-right">
+<span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-surface-container-high text-on-surface-variant font-label-sm">
+<span class="w-1.5 h-1.5 rounded-full bg-outline"></span>
+                                        Pending
+                                    </span>
+</td>
+</tr>
+<tr class="hover:bg-surface-container-lowest transition-colors">
+<td class="px-md py-md text-on-surface-variant font-body-md">Aug 05, 2023</td>
+<td class="px-md py-md">
+<div class="flex flex-col">
+<span class="font-semibold text-on-surface">Withdrawal to SBI •••• 4821</span>
+<span class="text-[12px] text-on-surface-variant">Bank Transfer</span>
+</div>
+</td>
+<td class="px-md py-md font-body-md">—</td>
+<td class="px-md py-md font-bold text-error">-₹50,000</td>
+<td class="px-md py-md text-right">
+<span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-secondary-container text-on-secondary-container font-label-sm">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary"></span>
+                                        Completed
+                                    </span>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="p-md mt-auto border-t border-outline-variant flex justify-center">
+<button class="text-primary font-label-sm flex items-center gap-2 hover:bg-stone-100 px-4 py-2 rounded-lg transition-all">
+                        View Full Report
+                        <span class="material-symbols-outlined text-[18px]" data-icon="chevron_right">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Informational Card / Banner -->
+<section class="mt-lg grid grid-cols-1 md:grid-cols-2 gap-gutter">
+<div class="relative h-[200px] rounded-xl overflow-hidden group">
+<img alt="Carbon sequestration monitoring" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" data-alt="An expansive aerial view of a meticulously managed grid of green farm plots, showcasing high-contrast agricultural health. A digital overlay of data points and subtle glowing green nodes represents carbon sequestration metrics being tracked in real-time. The morning sunlight casts long, soft shadows, creating a grounded and prosperous mood that aligns with CarbonX's reliable, corporate identity." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBYp8mzILxDyEFtHjT7JaasgNLy_kVXt_SD3Q5pX6CKzmcKocxutRQqkU8deSf-Dg6CfJF9DkdwKHIcTqoqCx4eWfVGbVjGSZY8Sfb8qbr6R7nsf28GhBhqan0kLTKI4Rbe9L2S0XLsf-e0nPuITRL1GxNFzQmq-ZgVTZxlnMPx577XOpGCSJ-T0E7t1i28RGp39cT0lHV-BRGRDCHgB0RrJ85EstcSIQ7yVaAJJBLQjFU0EX8uz7M-j9k5rJLNJwskLXNaztm0Kn4"/>
+<div class="absolute inset-0 bg-gradient-to-t from-primary/90 to-transparent p-md flex flex-col justify-end">
+<h4 class="text-white font-headline-md mb-xs">Next Payout: Nov 15</h4>
+<p class="text-white/80 font-body-md">Your current soil health verification is at 85% completion. Finish your upload to unlock early payouts.</p>
+</div>
+</div>
+<div class="bg-primary-container text-on-primary rounded-xl p-md flex flex-col justify-center border-l-8 border-secondary">
+<div class="flex items-start gap-4">
+<div class="p-3 bg-white/10 rounded-lg">
+<span class="material-symbols-outlined text-white text-[32px]" data-icon="nature_people">nature_people</span>
+</div>
+<div>
+<h4 class="font-headline-md mb-xs">Community Impact</h4>
+<p class="text-on-primary-container font-body-md">Your sequestration efforts this quarter offset the equivalent of 42 domestic flights. You have earned an additional 5% Sustainability Bonus.</p>
+<button class="mt-md px-6 py-2 bg-secondary border border-transparent text-white font-label-sm rounded-lg hover:bg-secondary/90 transition-all">View Leaderboard</button>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- BottomNavBar (Mobile Only) -->
+<nav class="md:hidden fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 py-2 pb-safe bg-white border-t border-gray-200 shadow-[0_-2px_10px_rgba(0,0,0,0.05)] rounded-t-lg">
+<a class="flex flex-col items-center justify-center text-stone-400 font-public-sans text-[11px] font-semibold active:scale-95 transition-transform duration-150" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+            Dashboard
+        </a>
+<a class="flex flex-col items-center justify-center text-stone-400 font-public-sans text-[11px] font-semibold active:scale-95 transition-transform duration-150" href="#">
+<span class="material-symbols-outlined" data-icon="map">map</span>
+            Land
+        </a>
+<a class="flex flex-col items-center justify-center text-stone-400 font-public-sans text-[11px] font-semibold active:scale-95 transition-transform duration-150" href="#">
+<span class="material-symbols-outlined" data-icon="description">description</span>
+            Documents
+        </a>
+<a class="flex flex-col items-center justify-center bg-[#2D4739]/10 text-[#2D4739] rounded-xl px-3 py-1.5 font-public-sans text-[11px] font-semibold active:scale-95 transition-transform duration-150" href="#">
+<span class="material-symbols-outlined" data-icon="payments">payments</span>
+            Earnings
+        </a>
+</nav>
+</body></html>

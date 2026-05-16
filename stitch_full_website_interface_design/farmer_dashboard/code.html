@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>CarbonX - Farmer Dashboard</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "primary-container": "#2d4739",
+                    "surface-dim": "#dbdad7",
+                    "on-error": "#ffffff",
+                    "primary-fixed-dim": "#b0cdbb",
+                    "surface-tint": "#496455",
+                    "on-secondary-fixed-variant": "#334d34",
+                    "on-error-container": "#93000a",
+                    "inverse-primary": "#b0cdbb",
+                    "inverse-surface": "#30312f",
+                    "secondary-container": "#ccebc8",
+                    "tertiary": "#462200",
+                    "on-primary-fixed-variant": "#324c3e",
+                    "surface-container-high": "#eae8e5",
+                    "tertiary-fixed": "#ffdcc3",
+                    "on-secondary-container": "#506b50",
+                    "secondary-fixed-dim": "#b0ceae",
+                    "error-container": "#ffdad6",
+                    "on-surface-variant": "#424844",
+                    "on-primary-container": "#98b5a3",
+                    "on-secondary": "#ffffff",
+                    "primary-fixed": "#ccead6",
+                    "surface-variant": "#e4e2df",
+                    "primary": "#173124",
+                    "on-primary": "#ffffff",
+                    "surface-container-lowest": "#ffffff",
+                    "tertiary-fixed-dim": "#ffb77d",
+                    "inverse-on-surface": "#f2f0ed",
+                    "on-tertiary-fixed": "#2f1500",
+                    "surface-container": "#efeeeb",
+                    "surface": "#fbf9f6",
+                    "tertiary-container": "#663500",
+                    "on-tertiary-container": "#fe942c",
+                    "on-background": "#1b1c1a",
+                    "outline": "#727973",
+                    "on-secondary-fixed": "#07200b",
+                    "secondary-fixed": "#ccebc8",
+                    "on-tertiary": "#ffffff",
+                    "outline-variant": "#c2c8c2",
+                    "on-primary-fixed": "#062014",
+                    "on-tertiary-fixed-variant": "#6e3900",
+                    "surface-container-highest": "#e4e2df",
+                    "error": "#ba1a1a",
+                    "background": "#fbf9f6",
+                    "secondary": "#4a654a",
+                    "surface-container-low": "#f5f3f0",
+                    "surface-bright": "#fbf9f6",
+                    "on-surface": "#1b1c1a"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "margin": "20px",
+                    "xs": "4px",
+                    "base": "8px",
+                    "sm": "12px",
+                    "lg": "48px",
+                    "gutter": "16px",
+                    "md": "24px"
+            },
+            "fontFamily": {
+                    "headline-md": ["Public Sans"],
+                    "body-lg": ["Public Sans"],
+                    "body-md": ["Public Sans"],
+                    "headline-lg": ["Public Sans"],
+                    "label-sm": ["Public Sans"]
+            },
+            "fontSize": {
+                    "headline-md": ["24px", {"lineHeight": "1.3", "fontWeight": "600"}],
+                    "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                    "body-md": ["16px", {"lineHeight": "1.5", "fontWeight": "400"}],
+                    "headline-lg": ["32px", {"lineHeight": "1.2", "fontWeight": "700"}],
+                    "label-sm": ["14px", {"lineHeight": "1.4", "letterSpacing": "0.02em", "fontWeight": "600"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .bento-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+        }
+        @media (max-width: 768px) {
+            .bento-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</head>
+<body class="bg-surface font-body-md text-on-surface">
+<!-- TopAppBar Shell -->
+<header class="bg-[#FDFCFB] dark:bg-stone-950 border-b border-gray-200 dark:border-stone-800 docked full-width top-0 sticky z-50">
+<div class="flex justify-between items-center w-full px-5 py-3 h-16">
+<div class="flex items-center gap-4">
+<span class="text-[#2D4739] dark:text-emerald-500 font-black tracking-tight text-xl font-headline-md">CarbonX</span>
+</div>
+<div class="hidden md:flex items-center gap-8">
+<nav class="flex gap-6">
+<a class="text-[#2D4739] dark:text-emerald-400 font-bold font-['Public_Sans'] text-lg" href="#">Dashboard</a>
+<a class="text-stone-500 dark:text-stone-400 font-['Public_Sans'] text-lg hover:bg-stone-100 dark:hover:bg-stone-900 transition-colors px-2 py-1 rounded" href="#">Register Land</a>
+<a class="text-stone-500 dark:text-stone-400 font-['Public_Sans'] text-lg hover:bg-stone-100 dark:hover:bg-stone-900 transition-colors px-2 py-1 rounded" href="#">Profile</a>
+</nav>
+</div>
+<div class="flex items-center gap-3">
+<button class="material-symbols-outlined p-2 text-on-surface-variant hover:bg-stone-100 dark:hover:bg-stone-900 rounded-full transition-colors" data-icon="notifications">notifications</button>
+<button class="material-symbols-outlined p-2 text-on-surface-variant hover:bg-stone-100 dark:hover:bg-stone-900 rounded-full transition-colors" data-icon="settings">settings</button>
+<div class="w-8 h-8 rounded-full overflow-hidden border border-outline-variant">
+<img alt="Farmer Profile" data-alt="A professional headshot of a modern sustainable farmer in a rural landscape during the golden hour. The farmer is wearing high-quality outdoor workwear. The lighting is warm and natural, emphasizing a sense of grounded reliability and institutional-grade trust. The background shows a soft-focus, lush green agricultural field under a clear, bright sky, matching the CarbonX primary green and stone-neutral palette." src="https://lh3.googleusercontent.com/aida-public/AB6AXuC-WtIGTU_BY72vL7Jz9sxGck422IBIPc37tXnXg_xsHLleHD-rhZjpILq9nepDGfCEuSVLcA3CRGCwX-vni3KdP4wmoazzX2OQuh5FA2eBAEAoG-19Adtize4pUIeVdmGQl0ZQKksVl5TSIqdUU1fatDD08bSot98VbzlqJ8vvIodNn4lLEdMXnPSl1PVeGCgd26oIaCvdiHMGJLSu3L9O95q3Q46oDUlFrkrGKn6Jg10g2c33I06V-PCDaKk5JvVnkyT2lTwZohw"/>
+</div>
+</div>
+</div>
+</header>
+<main class="max-w-7xl mx-auto px-margin pt-base pb-32">
+<!-- Header Section -->
+<section class="py-sm flex flex-col md:flex-row md:items-end justify-between gap-4">
+<div>
+<h1 class="font-headline-lg text-headline-lg text-primary">Farmer Dashboard</h1>
+<p class="text-on-surface-variant font-body-md mt-xs">Overview of your land's carbon sequestration performance.</p>
+</div>
+<button class="bg-primary text-on-primary px-md py-sm rounded-lg font-label-sm flex items-center gap-2 hover:bg-primary-container active:scale-95 transition-all">
+<span class="material-symbols-outlined" data-icon="add_location">add_location</span>
+                Register New Land
+            </button>
+</section>
+<!-- KPI Bento Grid -->
+<div class="bento-grid mt-sm">
+<!-- Total Land Area -->
+<div class="col-span-2 md:col-span-1 bg-surface-container border border-outline-variant p-md rounded-xl">
+<span class="text-outline font-label-sm uppercase tracking-wider">Total Land Area</span>
+<div class="flex items-baseline gap-2 mt-sm">
+<span class="text-headline-md font-headline-md text-primary-container">42.5</span>
+<span class="text-on-surface-variant font-body-md">Hectares</span>
+</div>
+<div class="mt-md flex items-center text-primary font-label-sm">
+<span class="material-symbols-outlined text-[18px]" data-icon="trending_up">trending_up</span>
+<span class="ml-1">+2.4 ha added this month</span>
+</div>
+</div>
+<!-- Estimated tCO2e -->
+<div class="col-span-2 md:col-span-1 bg-primary-container text-on-primary-container p-md rounded-xl shadow-lg">
+<span class="text-on-primary-container opacity-80 font-label-sm uppercase tracking-wider">Sequestration (tCO2e)</span>
+<div class="flex items-baseline gap-2 mt-sm">
+<span class="text-headline-md font-headline-md text-on-primary">124.8</span>
+<span class="text-on-primary-container font-body-md">Metric Tons</span>
+</div>
+<div class="mt-md h-2 w-full bg-primary rounded-full overflow-hidden">
+<div class="h-full bg-secondary-fixed w-[65%] rounded-full"></div>
+</div>
+<span class="text-[12px] mt-xs block opacity-70">65% of annual target reached</span>
+</div>
+<!-- Earnings -->
+<div class="col-span-2 md:col-span-1 bg-surface-container border border-outline-variant p-md rounded-xl">
+<span class="text-outline font-label-sm uppercase tracking-wider">Estimated Earnings</span>
+<div class="flex items-baseline gap-1 mt-sm">
+<span class="text-headline-md font-headline-md text-primary-container">₹2.4L</span>
+</div>
+<div class="mt-md flex items-center text-tertiary-container font-label-sm bg-tertiary-fixed/30 px-2 py-1 rounded w-fit">
+<span class="material-symbols-outlined text-[18px]" data-icon="payments">payments</span>
+<span class="ml-1">Pending verification</span>
+</div>
+</div>
+<!-- NDVI Metric Card -->
+<div class="col-span-2 md:col-span-1 bg-surface-container border border-outline-variant p-md rounded-xl flex flex-col justify-between">
+<div>
+<span class="text-outline font-label-sm uppercase tracking-wider">Health (Avg NDVI)</span>
+<div class="flex items-baseline gap-2 mt-sm">
+<span class="text-headline-md font-headline-md text-primary-container">0.78</span>
+</div>
+</div>
+<div class="flex items-end gap-1 h-12 mt-md">
+<div class="bg-secondary w-full rounded-t" style="height: 40%"></div>
+<div class="bg-secondary w-full rounded-t" style="height: 60%"></div>
+<div class="bg-secondary w-full rounded-t" style="height: 55%"></div>
+<div class="bg-secondary w-full rounded-t" style="height: 85%"></div>
+<div class="bg-secondary w-full rounded-t" style="height: 70%"></div>
+<div class="bg-primary w-full rounded-t" style="height: 95%"></div>
+</div>
+</div>
+</div>
+<!-- Main Content Area: Asymmetric Layout -->
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-gutter mt-md">
+<!-- Registered Farms List -->
+<div class="lg:col-span-2 space-y-sm">
+<div class="flex items-center justify-between">
+<h2 class="font-headline-md text-headline-md text-primary">My Registered Farms</h2>
+<button class="text-primary font-label-sm flex items-center gap-1 hover:underline">
+                        View Map <span class="material-symbols-outlined" data-icon="map">map</span>
+</button>
+</div>
+<!-- Farm Card 1 -->
+<div class="bg-white border border-outline-variant rounded-xl overflow-hidden flex flex-col md:flex-row group hover:border-primary transition-colors cursor-pointer">
+<div class="md:w-48 h-32 md:h-auto bg-surface-dim relative">
+<img class="w-full h-full object-cover" data-alt="A top-down aerial satellite view of a vibrant green rectangular farm plot in rural India. The land is lush and well-maintained, divided into clear sections of different sustainable crops. The lighting is bright midday sun, highlighting the intense greens of the vegetation against the warm earthy tones of the surrounding soil. The aesthetic is clean, data-focused, and professional, typical of high-end agricultural monitoring software." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDY18v1f1i9OeowApKyAwQz7MGdqrclK2uKrTpPFtlvhL4-UaoCQ7x5e_UgxaYemFah38JOIYkxQexP7RSohc3fQxzh8OkFLYDwUtSBb81Sn859RUQlfU60vzx4Y97owKoylhJAtyIAFUEV0zDP4hKYh7fMxO3CA460JFtO0InenNL0w5aHG8-TEokiPVa1fVHVBFNQNbWsIkfJ2BTaWnXla_LNFFMSqllt6Yl3SPRrrSAC8Y_ielB8zD_zO_nsKqv4Rg553SsYarE"/>
+<div class="absolute top-2 left-2 bg-primary/90 text-white text-[10px] px-2 py-0.5 rounded uppercase font-bold">Active</div>
+</div>
+<div class="p-md flex-grow flex flex-col justify-between">
+<div class="flex justify-between items-start">
+<div>
+<h3 class="font-headline-md text-body-lg text-primary">Green Valley North</h3>
+<p class="text-on-surface-variant text-[14px]">Maharashtra, Nashik District</p>
+</div>
+<div class="text-right">
+<span class="block font-bold text-primary">18.2 ha</span>
+<span class="text-[12px] text-outline">Registered Aug 2023</span>
+</div>
+</div>
+<div class="flex gap-4 mt-sm border-t border-surface-container pt-sm">
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-secondary text-[18px]" data-icon="eco">eco</span>
+<span class="text-[14px] font-semibold text-primary">0.82 NDVI</span>
+</div>
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-secondary text-[18px]" data-icon="co2">co2</span>
+<span class="text-[14px] font-semibold text-primary">54.2 tCO2e</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Farm Card 2 -->
+<div class="bg-white border border-outline-variant rounded-xl overflow-hidden flex flex-col md:flex-row group hover:border-primary transition-colors cursor-pointer">
+<div class="md:w-48 h-32 md:h-auto bg-surface-dim relative">
+<img class="w-full h-full object-cover" data-alt="A detailed wide-angle photograph of a terraced farm landscape in a hilly region. The fields are vibrant and healthy, reflecting sustainable agroforestry practices. The scene is captured during early morning with soft, misty lighting that creates a tranquil and grounded atmosphere. The color palette is dominated by rich forest greens and warm terracotta earth tones, aligning with the CarbonX corporate identity." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAV9lMTxgVH1kJE7284EuSo5F9nTaaHJDDtadKi0gI6j-pSl31jqcXvyd9tPytMfZ-IRUE-scXPBszwyXKJTFYtHHv23UM81eiP4NiWW7oFyu-Y5K20zDIKQS2iIqJRzV6L2duVXi_WGzTlsBey05VAfekIFgEmEysSBlaC75elrXkugu4ZL3Nj4GPHq9av6no14uOHhWhn9qfixZ2vCszJ5VRrKw_vnsTRMHaXhYkXSQn9HI7E_tBYK1OQSzlT7o3pRej3FWXbiJI"/>
+<div class="absolute top-2 left-2 bg-tertiary-container text-on-tertiary-container text-[10px] px-2 py-0.5 rounded uppercase font-bold">Pending</div>
+</div>
+<div class="p-md flex-grow flex flex-col justify-between">
+<div class="flex justify-between items-start">
+<div>
+<h3 class="font-headline-md text-body-lg text-primary">Highland Springs</h3>
+<p class="text-on-surface-variant text-[14px]">Karnataka, Coorg Region</p>
+</div>
+<div class="text-right">
+<span class="block font-bold text-primary">24.3 ha</span>
+<span class="text-[12px] text-outline">Registered Dec 2023</span>
+</div>
+</div>
+<div class="flex gap-4 mt-sm border-t border-surface-container pt-sm">
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-outline text-[18px]" data-icon="pending_actions">pending_actions</span>
+<span class="text-[14px] font-semibold text-outline">Verifying Satellite Data</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Side Visualization: NDVI Heatmap Preview -->
+<div class="space-y-sm">
+<h2 class="font-headline-md text-headline-md text-primary">NDVI Trends</h2>
+<div class="bg-surface-container-high border border-outline-variant p-md rounded-xl h-full min-h-[400px]">
+<div class="bg-white rounded-lg p-sm border border-outline-variant mb-md shadow-sm">
+<div class="flex justify-between items-center mb-base">
+<span class="text-label-sm text-primary uppercase">Satellite View</span>
+<span class="text-[12px] text-outline">Updated 2h ago</span>
+</div>
+<div class="aspect-square bg-stone-200 rounded overflow-hidden relative">
+<img class="w-full h-full object-cover grayscale opacity-30" data-alt="A high-resolution satellite imagery overlay showing a normalized difference vegetation index (NDVI) heatmap. The map uses a high-contrast color scale from deep red for low vegetation to vibrant, neon green for high vegetation density. Geometric farm boundaries are outlined in white. The lighting is even and technical, presenting the data in a clear, institutional-grade scientific visualization style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAxURsgWE_1nghhQZO0Fdc9FWPmUSYzFgOWW0nV6fafbcq6GBPSyw3HcidtCj-rhAaUxIi_aLVc2aUVoLeLvAu0s4_MaGvqWNdvYEYz89zw3XNOpIqZRzkhFdfTdDiM4kGYrVvqrTv55HGNWWMSFvm-1YHz212EDf_wgTO03Clu25l3O9LjPQE2nWiWYSs4pa1jVGu8EPuRDO0lLBE6pr5hIqZxy7ihL2RMryP9L95iBAeTUdj2b2sjJ__KDt33aeWgiuOkVQqTHzQ"/>
+<div class="absolute inset-0 flex items-center justify-center">
+<div class="bg-primary/10 border-2 border-primary w-24 h-24 rotate-12 flex items-center justify-center">
+<span class="text-primary font-bold text-[10px]">SCANNING...</span>
+</div>
+</div>
+</div>
+<div class="mt-sm flex justify-between items-center">
+<div class="flex gap-1">
+<div class="w-3 h-3 bg-red-500 rounded-sm"></div>
+<div class="w-3 h-3 bg-yellow-500 rounded-sm"></div>
+<div class="w-3 h-3 bg-green-500 rounded-sm"></div>
+<div class="w-3 h-3 bg-primary rounded-sm"></div>
+</div>
+<span class="text-[11px] text-outline">Low → High Density</span>
+</div>
+</div>
+<div class="p-sm">
+<h4 class="font-label-sm text-primary-container">Sequestration Growth</h4>
+<p class="text-[13px] text-on-surface-variant mt-xs">Your land has captured 12% more carbon compared to the same period last year.</p>
+<button class="mt-md w-full bg-white border border-primary text-primary py-xs rounded font-label-sm hover:bg-primary-fixed transition-colors">Download Full Report</button>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- BottomNavBar Shell -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 h-20 pb-safe bg-white dark:bg-stone-900 border-t border-gray-200 dark:border-stone-800 shadow-[0_-4px_12px_rgba(45,71,57,0.08)] md:hidden">
+<div class="flex flex-col items-center justify-center text-[#2D4739] dark:text-emerald-400 font-bold scale-110 transition-transform">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="font-['Public_Sans'] text-[12px] font-medium">Dashboard</span>
+</div>
+<div class="flex flex-col items-center justify-center text-stone-400 dark:text-stone-500 hover:text-[#2D4739] dark:hover:text-emerald-300 active:opacity-80 transition-all duration-200">
+<span class="material-symbols-outlined" data-icon="map">map</span>
+<span class="font-['Public_Sans'] text-[12px] font-medium">Register Land</span>
+</div>
+<div class="flex flex-col items-center justify-center text-stone-400 dark:text-stone-500 hover:text-[#2D4739] dark:hover:text-emerald-300 active:opacity-80 transition-all duration-200">
+<span class="material-symbols-outlined" data-icon="person">person</span>
+<span class="font-['Public_Sans'] text-[12px] font-medium">Profile</span>
+</div>
+</nav>
+</body></html>

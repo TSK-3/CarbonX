@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>CarbonX - Submission Review</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "primary-container": "#2d4739",
+                        "surface-dim": "#dbdad7",
+                        "on-error": "#ffffff",
+                        "primary-fixed-dim": "#b0cdbb",
+                        "surface-tint": "#496455",
+                        "on-secondary-fixed-variant": "#334d34",
+                        "on-error-container": "#93000a",
+                        "inverse-primary": "#b0cdbb",
+                        "inverse-surface": "#30312f",
+                        "secondary-container": "#ccebc8",
+                        "tertiary": "#462200",
+                        "on-primary-fixed-variant": "#324c3e",
+                        "surface-container-high": "#eae8e5",
+                        "tertiary-fixed": "#ffdcc3",
+                        "on-secondary-container": "#506b50",
+                        "secondary-fixed-dim": "#b0ceae",
+                        "error-container": "#ffdad6",
+                        "on-surface-variant": "#424844",
+                        "on-primary-container": "#98b5a3",
+                        "on-secondary": "#ffffff",
+                        "primary-fixed": "#ccead6",
+                        "surface-variant": "#e4e2df",
+                        "primary": "#173124",
+                        "on-primary": "#ffffff",
+                        "surface-container-lowest": "#ffffff",
+                        "tertiary-fixed-dim": "#ffb77d",
+                        "inverse-on-surface": "#f2f0ed",
+                        "on-tertiary-fixed": "#2f1500",
+                        "surface-container": "#efeeeb",
+                        "surface": "#fbf9f6",
+                        "tertiary-container": "#663500",
+                        "on-tertiary-container": "#fe942c",
+                        "on-background": "#1b1c1a",
+                        "outline": "#727973",
+                        "on-secondary-fixed": "#07200b",
+                        "secondary-fixed": "#ccebc8",
+                        "on-tertiary": "#ffffff",
+                        "outline-variant": "#c2c8c2",
+                        "on-primary-fixed": "#062014",
+                        "on-tertiary-fixed-variant": "#6e3900",
+                        "surface-container-highest": "#e4e2df",
+                        "error": "#ba1a1a",
+                        "background": "#fbf9f6",
+                        "secondary": "#4a654a",
+                        "surface-container-low": "#f5f3f0",
+                        "surface-bright": "#fbf9f6",
+                        "on-surface": "#1b1c1a"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "margin": "20px",
+                        "xs": "4px",
+                        "base": "8px",
+                        "sm": "12px",
+                        "lg": "48px",
+                        "gutter": "16px",
+                        "md": "24px"
+                    },
+                    "fontFamily": {
+                        "headline-md": ["Public Sans"],
+                        "body-lg": ["Public Sans"],
+                        "body-md": ["Public Sans"],
+                        "headline-lg": ["Public Sans"],
+                        "label-sm": ["Public Sans"]
+                    },
+                    "fontSize": {
+                        "headline-md": ["24px", {"lineHeight": "1.3", "fontWeight": "600"}],
+                        "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                        "body-md": ["16px", {"lineHeight": "1.5", "fontWeight": "400"}],
+                        "headline-lg": ["32px", {"lineHeight": "1.2", "fontWeight": "700"}],
+                        "label-sm": ["14px", {"lineHeight": "1.4", "letterSpacing": "0.02em", "fontWeight": "600"}]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .polygon-overlay {
+            clip-path: polygon(20% 10%, 80% 15%, 90% 80%, 10% 85%);
+            background-color: rgba(45, 71, 57, 0.3);
+            border: 3px solid #2d4739;
+        }
+    </style>
+</head>
+<body class="bg-surface font-body-md text-on-surface min-h-screen pb-lg">
+<!-- TopAppBar Component -->
+<header class="bg-[#FDFCFB] border-b border-gray-200 flex justify-between items-center w-full px-5 py-3 h-16 sticky top-0 z-50">
+<div class="flex items-center gap-sm">
+<span class="material-symbols-outlined text-[#2D4739]" data-icon="arrow_back">arrow_back</span>
+<span class="text-[#2D4739] font-black tracking-tight text-xl font-headline-md">CarbonX</span>
+</div>
+<div class="flex items-center gap-md">
+<button class="text-stone-500 hover:bg-stone-100 p-2 rounded-full transition-colors active:scale-95 duration-150">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+<button class="text-stone-500 hover:bg-stone-100 p-2 rounded-full transition-colors active:scale-95 duration-150">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+</button>
+<img alt="Farmer Profile" class="w-8 h-8 rounded-full border border-outline-variant" data-alt="A close-up portrait of a weathered, smiling older farmer with deep character lines, wearing a simple traditional cotton shirt. The lighting is warm and natural, suggesting a late afternoon in a rural setting. The background is softly blurred with hints of green foliage, maintaining a grounded and trustworthy professional aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAAxjlIiPqEE5IGtkK2rps2Cha9VFuBJrwYMaW1B-NuOSN_atmUfOSq-Ktvyd4F-VhjMnYUj6ksQStHaVjcQXlkUi8m_Z4Rs7-qyX5r7zUN-PnW9G4XN-h5ex8JGAqzALs0dvkZqYmhAIjt8YH1JRdLxR-arabaXoMczRuKPfCaLw0prfWAQWVDgVtfm3hj581cK4M-TkwJMJ6H00D7x_nzhlCdzyxhMhce2mzl_oSsTpmt50oZo2qvxU41PLseLIBPDoQJ5YLVs6U"/>
+</div>
+</header>
+<main class="max-w-screen-md mx-auto px-margin pt-md space-y-md">
+<!-- Hero Section -->
+<section class="space-y-xs">
+<h1 class="font-headline-lg text-headline-lg text-primary">Confirm Submission</h1>
+<p class="font-body-md text-on-surface-variant">Review your land details for Ramaiah's Estate before finalizing your carbon credit estimate.</p>
+</section>
+<!-- Bento Grid Layout -->
+<div class="grid grid-cols-1 md:grid-cols-12 gap-gutter">
+<!-- Mini-Map Preview (8 Columns) -->
+<div class="md:col-span-8 bg-surface-container-low rounded-xl border border-outline-variant overflow-hidden shadow-sm flex flex-col">
+<div class="p-sm flex justify-between items-center border-b border-outline-variant bg-surface-container-lowest">
+<span class="font-label-sm text-primary flex items-center gap-xs">
+<span class="material-symbols-outlined text-[18px]" data-icon="map">map</span>
+                        Land Polygon Review
+                    </span>
+<button class="text-primary font-label-sm flex items-center gap-xs hover:underline">
+<span class="material-symbols-outlined text-[16px]" data-icon="edit">edit</span>
+                        Adjust
+                    </button>
+</div>
+<div class="relative h-[320px] bg-stone-200">
+<img alt="Satellite view of land" class="w-full h-full object-cover grayscale-[20%]" data-alt="A high-resolution satellite imagery view of a lush agricultural landscape featuring diverse green fields and patches of trees. A translucent forest-green polygon overlay clearly defines the boundaries of a specific land plot, creating a technical yet organic visual. The sunlight is bright and clear, highlighting the natural textures of the soil and vegetation under a professional GIS-style interface." data-location="Karnataka Rural" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBGUtVK1Ehg5o30K5A1xBXm8V1_E5ByjacEdlHYTh2D351c-ONip3667jbA-vHTgVG_grYOiSFOgrIFpCii3dYpn2o7gGlMiy6DsKog4ZpWmuJOLQ-pThOcfKFgUpq2z1o3yCbEyrKtB0uTNgnUwD4v35rJf_glmeQ4i5kVHWk624pDcZjp-1r-SFaW6W9P-L_GsivBSJNwcA1EJYBcnnj9zu2XLPLptb3S3ZGq1NvjYlTufAnvu15R0ONiq2SsKWrXgYx1llUz6e8"/>
+<div class="absolute inset-0 polygon-overlay pointer-events-none"></div>
+<div class="absolute bottom-4 right-4 bg-white/90 backdrop-blur px-sm py-xs rounded shadow-sm border border-outline-variant">
+<span class="font-label-sm text-primary">High Accuracy GPS Lock</span>
+</div>
+</div>
+</div>
+<!-- Area Metric Card (4 Columns) -->
+<div class="md:col-span-4 bg-primary-container text-on-primary-container p-md rounded-xl shadow-[0_4px_12px_rgba(45,71,57,0.08)] flex flex-col justify-center items-center text-center space-y-sm">
+<span class="font-label-sm uppercase tracking-wider opacity-80">Calculated Area</span>
+<div class="flex flex-col">
+<span class="text-[48px] font-black leading-none">12.4</span>
+<span class="font-headline-md opacity-90">Hectares</span>
+</div>
+<div class="w-full h-1 bg-on-primary-container/20 rounded-full mt-base overflow-hidden">
+<div class="w-3/4 h-full bg-on-primary-container rounded-full"></div>
+</div>
+<p class="font-label-sm italic opacity-70">Topography: Slight Slope</p>
+</div>
+<!-- Details Summary Card (12 Columns) -->
+<div class="md:col-span-12 bg-white rounded-xl border border-outline-variant p-md shadow-sm">
+<div class="grid grid-cols-1 sm:grid-cols-3 gap-md">
+<div class="space-y-xs">
+<span class="font-label-sm text-outline uppercase text-[12px]">Farmer Name</span>
+<p class="font-headline-md text-primary">Ramaiah</p>
+</div>
+<div class="space-y-xs">
+<span class="font-label-sm text-outline uppercase text-[12px]">Main Crop</span>
+<p class="font-headline-md text-primary">Coffee (Robusta)</p>
+</div>
+<div class="space-y-xs">
+<span class="font-label-sm text-outline uppercase text-[12px]">Location Tag</span>
+<p class="font-headline-md text-primary">Kodagu District</p>
+</div>
+</div>
+</div>
+<!-- Soil & Carbon Data (6 Columns) -->
+<div class="md:col-span-6 bg-surface-container-low p-md rounded-xl border border-outline-variant space-y-sm">
+<h3 class="font-label-sm text-primary flex items-center gap-xs">
+<span class="material-symbols-outlined text-[20px]" data-icon="eco">eco</span>
+                    Biological Indicators
+                </h3>
+<div class="space-y-base">
+<div class="flex justify-between items-center">
+<span class="font-body-md text-on-surface-variant">Soil Organic Carbon</span>
+<span class="font-headline-md text-primary">1.8%</span>
+</div>
+<div class="flex justify-between items-center">
+<span class="font-body-md text-on-surface-variant">Biomass Estimate</span>
+<span class="font-headline-md text-primary">240 t/ha</span>
+</div>
+</div>
+</div>
+<!-- Transparency Statement (6 Columns) -->
+<div class="md:col-span-6 bg-surface-container-high p-md rounded-xl border border-outline-variant flex items-center gap-md">
+<div class="bg-primary text-white p-sm rounded-lg">
+<span class="material-symbols-outlined text-[32px]" data-icon="verified_user">verified_user</span>
+</div>
+<div>
+<h4 class="font-label-sm text-primary">Verified Data Protocol</h4>
+<p class="text-[14px] text-on-surface-variant leading-tight">Your data is processed using ISO-compliant carbon sequestration models to ensure institutional-grade estimates.</p>
+</div>
+</div>
+</div>
+<!-- Action Section -->
+<section class="pt-md pb-lg space-y-md">
+<button class="w-full bg-primary-container text-on-primary text-headline-md py-md rounded-lg shadow-lg hover:bg-primary transition-all active:scale-[0.98] duration-200 flex items-center justify-center gap-sm">
+                Submit for Carbon Credit Estimate
+                <span class="material-symbols-outlined" data-icon="trending_up">trending_up</span>
+</button>
+<p class="text-center font-label-sm text-outline">
+                By clicking submit, you agree to our 
+                <a class="text-primary underline" href="#">Data Processing Terms</a> 
+                and verify the land boundaries are accurate.
+            </p>
+</section>
+</main>
+<!-- Success Feedback (Hidden by default, used for state reference) -->
+<div class="hidden fixed inset-0 z-[60] bg-primary/20 backdrop-blur-sm flex items-center justify-center p-margin">
+<div class="bg-white p-lg rounded-xl max-w-sm w-full text-center shadow-2xl border border-outline-variant">
+<div class="w-20 h-20 bg-secondary-container text-primary mx-auto rounded-full flex items-center justify-center mb-md">
+<span class="material-symbols-outlined text-[48px]" data-icon="check_circle" data-weight="fill">check_circle</span>
+</div>
+<h2 class="font-headline-lg text-primary">Submission Successful</h2>
+<p class="font-body-md text-on-surface-variant mt-sm">We are analyzing your land's sequestration potential. You will be notified in 24 hours.</p>
+<button class="mt-md w-full border-2 border-primary-container text-primary font-label-sm py-sm rounded-lg">
+                View Dashboard
+            </button>
+</div>
+</div>
+</body></html>

@@ -1,0 +1,18 @@
+{
+  "name": "carbonx",
+  "version": "1.0.0",
+  "private": true,
+  "description": "CarbonX MVP monorepo",
+  "scripts": {
+    "dev": "concurrently \"npm run dev --workspace backend\" \"npm run dev --workspace frontend\"",
+    "test": "npm test --workspace backend",
+    "build": "npm run build --workspace frontend"
+  },
+  "workspaces": [
+    "backend",
+    "frontend"
+  ],
+  "devDependencies": {
+    "concurrently": "^9.1.2"
+  }
+}

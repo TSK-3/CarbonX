@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>CarbonX - Land Registration</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "primary-container": "#2d4739",
+                    "surface-dim": "#dbdad7",
+                    "on-error": "#ffffff",
+                    "primary-fixed-dim": "#b0cdbb",
+                    "surface-tint": "#496455",
+                    "on-secondary-fixed-variant": "#334d34",
+                    "on-error-container": "#93000a",
+                    "inverse-primary": "#b0cdbb",
+                    "inverse-surface": "#30312f",
+                    "secondary-container": "#ccebc8",
+                    "tertiary": "#462200",
+                    "on-primary-fixed-variant": "#324c3e",
+                    "surface-container-high": "#eae8e5",
+                    "tertiary-fixed": "#ffdcc3",
+                    "on-secondary-container": "#506b50",
+                    "secondary-fixed-dim": "#b0ceae",
+                    "error-container": "#ffdad6",
+                    "on-surface-variant": "#424844",
+                    "on-primary-container": "#98b5a3",
+                    "on-secondary": "#ffffff",
+                    "primary-fixed": "#ccead6",
+                    "surface-variant": "#e4e2df",
+                    "primary": "#173124",
+                    "on-primary": "#ffffff",
+                    "surface-container-lowest": "#ffffff",
+                    "tertiary-fixed-dim": "#ffb77d",
+                    "inverse-on-surface": "#f2f0ed",
+                    "on-tertiary-fixed": "#2f1500",
+                    "surface-container": "#efeeeb",
+                    "surface": "#fbf9f6",
+                    "tertiary-container": "#663500",
+                    "on-tertiary-container": "#fe942c",
+                    "on-background": "#1b1c1a",
+                    "outline": "#727973",
+                    "on-secondary-fixed": "#07200b",
+                    "secondary-fixed": "#ccebc8",
+                    "on-tertiary": "#ffffff",
+                    "outline-variant": "#c2c8c2",
+                    "on-primary-fixed": "#062014",
+                    "on-tertiary-fixed-variant": "#6e3900",
+                    "surface-container-highest": "#e4e2df",
+                    "error": "#ba1a1a",
+                    "background": "#fbf9f6",
+                    "secondary": "#4a654a",
+                    "surface-container-low": "#f5f3f0",
+                    "surface-bright": "#fbf9f6",
+                    "on-surface": "#1b1c1a"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "margin": "20px",
+                    "xs": "4px",
+                    "base": "8px",
+                    "sm": "12px",
+                    "lg": "48px",
+                    "gutter": "16px",
+                    "md": "24px"
+            },
+            "fontFamily": {
+                    "headline-md": ["Public Sans"],
+                    "body-lg": ["Public Sans"],
+                    "body-md": ["Public Sans"],
+                    "headline-lg": ["Public Sans"],
+                    "label-sm": ["Public Sans"]
+            },
+            "fontSize": {
+                    "headline-md": ["24px", {"lineHeight": "1.3", "fontWeight": "600"}],
+                    "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                    "body-md": ["16px", {"lineHeight": "1.5", "fontWeight": "400"}],
+                    "headline-lg": ["32px", {"lineHeight": "1.2", "fontWeight": "700"}],
+                    "label-sm": ["14px", {"lineHeight": "1.4", "letterSpacing": "0.02em", "fontWeight": "600"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .map-overlay-grid {
+            background-image: radial-gradient(circle, #2d4739 1px, transparent 1px);
+            background-size: 40px 40px;
+            opacity: 0.05;
+        }
+    </style>
+</head>
+<body class="bg-background font-body-md text-on-background min-h-screen flex flex-col">
+<!-- TopAppBar -->
+<header class="bg-[#FDFCFB] dark:bg-stone-950 border-b border-gray-200 dark:border-stone-800 flex justify-between items-center w-full px-5 py-3 h-16 sticky top-0 z-50">
+<div class="flex items-center gap-4">
+<span class="text-[#2D4739] dark:text-emerald-500 font-black tracking-tight text-xl">CarbonX</span>
+<nav class="hidden md:flex gap-6 ml-8">
+<a class="text-stone-500 dark:text-stone-400 hover:bg-stone-100 dark:hover:bg-stone-900 transition-colors px-3 py-1 rounded-lg font-['Public_Sans'] font-semibold text-lg" href="#">Dashboard</a>
+<a class="text-[#2D4739] dark:text-emerald-400 font-bold hover:bg-stone-100 dark:hover:bg-stone-900 transition-colors px-3 py-1 rounded-lg font-['Public_Sans'] font-semibold text-lg" href="#">Register Land</a>
+<a class="text-stone-500 dark:text-stone-400 hover:bg-stone-100 dark:hover:bg-stone-900 transition-colors px-3 py-1 rounded-lg font-['Public_Sans'] font-semibold text-lg" href="#">Profile</a>
+</nav>
+</div>
+<div class="flex items-center gap-2">
+<button class="p-2 text-stone-500 dark:text-stone-400 hover:bg-stone-100 dark:hover:bg-stone-900 transition-colors active:scale-95 duration-150 rounded-full">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+<button class="p-2 text-stone-500 dark:text-stone-400 hover:bg-stone-100 dark:hover:bg-stone-900 transition-colors active:scale-95 duration-150 rounded-full">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+</button>
+<div class="w-8 h-8 rounded-full bg-surface-container overflow-hidden border border-outline-variant">
+<img alt="Farmer Profile" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDAsWW5Rvi3ekgO90B9MQZWiG_pkURzySxhayiaf57BzyS-y0_VM8G2xRMC-MZHOZjXbQ9pjaYMl9WZ3WuE0FhLM0laedZ2lFq_JtQeN15eNjSXymTf1WLmzInzeazQU8DDw1WfflhFKCbALbxaVQoLbaD1Ek3tSMLpVDW9Ho9fKUw5UE2sYkhyuSua26aCUPK2el8VW6PBreuuh7FvtruUmx8fw7-meFcQe76YPtDYel8gPgJeIBP7cp-tdHkqWSWERVKOKL3GWNg"/>
+</div>
+</div>
+</header>
+<main class="flex-grow flex flex-col md:flex-row relative overflow-hidden">
+<!-- Left Side Panel (Controls) -->
+<aside class="w-full md:w-80 lg:w-96 bg-surface border-r border-outline-variant z-30 flex flex-col shadow-lg md:shadow-none">
+<div class="p-6 space-y-6 overflow-y-auto">
+<div>
+<h1 class="font-headline-md text-headline-md text-primary mb-2">Register Land</h1>
+<p class="font-body-md text-on-surface-variant">Define your farm boundaries to start tracking carbon sequestration.</p>
+</div>
+<div class="space-y-4">
+<div class="flex flex-col gap-1.5">
+<label class="font-label-sm text-label-sm text-on-surface-variant px-1">Farm Name</label>
+<input class="h-12 px-4 rounded-lg border-2 border-outline-variant bg-surface-container-low focus:border-primary focus:ring-0 transition-all font-body-md" placeholder="e.g. Warangal Green Estate" type="text"/>
+</div>
+<div class="flex flex-col gap-1.5">
+<label class="font-label-sm text-label-sm text-on-surface-variant px-1">Land Type</label>
+<select class="h-12 px-4 rounded-lg border-2 border-outline-variant bg-surface-container-low focus:border-primary focus:ring-0 transition-all font-body-md appearance-none">
+<option>Agroforestry</option>
+<option>Cropland</option>
+<option>Grassland</option>
+<option>Reforestation</option>
+</select>
+</div>
+<div class="pt-4 border-t border-outline-variant">
+<h2 class="font-label-sm text-label-sm text-primary mb-3">Polygon Controls</h2>
+<div class="grid grid-cols-1 gap-3">
+<button class="flex items-center justify-center gap-3 h-14 bg-primary text-on-primary rounded-xl font-headline-md hover:bg-primary-container transition-all shadow-md active:scale-[0.98]">
+<span class="material-symbols-outlined" data-icon="polyline">polyline</span>
+                                Draw Boundary
+                            </button>
+<div class="grid grid-cols-2 gap-3">
+<button class="flex items-center justify-center gap-2 h-12 border-2 border-primary text-primary rounded-xl font-label-sm hover:bg-secondary-container/20 transition-all active:scale-[0.98]">
+<span class="material-symbols-outlined text-[20px]" data-icon="restart_alt">restart_alt</span>
+                                    Reset
+                                </button>
+<button class="flex items-center justify-center gap-2 h-12 border-2 border-outline text-outline rounded-xl font-label-sm hover:bg-surface-container-high transition-all active:scale-[0.98]">
+<span class="material-symbols-outlined text-[20px]" data-icon="undo">undo</span>
+                                    Undo
+                                </button>
+</div>
+</div>
+</div>
+<div class="bg-secondary-container/30 p-4 rounded-xl border border-secondary-container">
+<div class="flex items-start gap-3">
+<span class="material-symbols-outlined text-secondary" data-icon="info">info</span>
+<div class="space-y-1">
+<p class="font-label-sm text-secondary">Mapping Tip</p>
+<p class="text-xs text-on-secondary-container leading-relaxed">Click on the map to place vertices. Connect the last point to the first to close the polygon.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="mt-auto p-6 border-t border-outline-variant bg-surface-container-lowest">
+<button class="w-full h-14 bg-primary text-on-primary rounded-xl font-headline-md hover:opacity-90 transition-all shadow-lg active:scale-[0.98]">
+                    Confirm Land Area
+                </button>
+</div>
+</aside>
+<!-- Main Map View Container -->
+<section class="flex-grow relative bg-surface-dim">
+<!-- Map Simulation Background -->
+<div class="absolute inset-0 z-0">
+<img class="w-full h-full object-cover grayscale-[20%] opacity-90" data-alt="A detailed aerial satellite view of lush agricultural farmland in Warangal, Telangana, showing organized crop patterns and vibrant green fields under bright, natural daylight. The image has a professional, high-resolution GIS interface aesthetic with subtle grid overlays. The lighting is crisp, emphasizing the texture of the soil and the variety of vegetation, maintaining a grounded and reliable tone consistent with institutional-grade environmental monitoring software." data-location="Warangal, Telangana" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDbEiE-_k_BjJBLDuL4CX88ecGQ4p6QVrW-GBXLRMcUQoHotuBw2Q_zb1oGQqpGTwIAhDfzONFzrkLniUO8IWnNdxJLfFVtatqpMLvadQWg_wh-v1UN4H2SrEEt-X-wXwTXzLkjng3RRsThnsT5_rPSubvJaH3h76BTbYcbxFamNnt4RbXEW-ne9ZdxPPMAjYFbiG7i4FVE5t2nVxhjw-b-7-B7TlSCq8MlOEUJQfQLRCZjjX2i5k6enKEddnOpv_pwISrNLValKxA"/>
+<div class="absolute inset-0 map-overlay-grid pointer-events-none"></div>
+</div>
+<!-- Drawing Interaction Simulation -->
+<div class="absolute inset-0 z-10 flex items-center justify-center pointer-events-none">
+<!-- Example Polygon UI -->
+<svg class="w-full h-full drop-shadow-2xl" viewbox="0 0 800 600">
+<!-- The active polygon being drawn -->
+<path class="pointer-events-auto cursor-pointer" d="M300,200 L550,180 L620,400 L350,450 Z" fill="rgba(45, 71, 57, 0.25)" stroke="#2d4739" stroke-dasharray="8 4" stroke-width="4"></path>
+<!-- Vertices -->
+<circle class="pointer-events-auto cursor-move" cx="300" cy="200" fill="white" r="6" stroke="#2d4739" stroke-width="2"></circle>
+<circle class="pointer-events-auto cursor-move" cx="550" cy="180" fill="white" r="6" stroke="#2d4739" stroke-width="2"></circle>
+<circle class="pointer-events-auto cursor-move" cx="620" cy="400" fill="white" r="6" stroke="#2d4739" stroke-width="2"></circle>
+<circle class="pointer-events-auto cursor-move" cx="350" cy="450" fill="white" r="6" stroke="#2d4739" stroke-width="2"></circle>
+</svg>
+</div>
+<!-- Floating Map Actions -->
+<div class="absolute top-6 right-6 z-20 flex flex-col gap-3">
+<div class="flex flex-col bg-white rounded-xl shadow-xl border border-outline-variant overflow-hidden">
+<button class="p-3 hover:bg-surface-container transition-colors border-b border-outline-variant">
+<span class="material-symbols-outlined text-primary" data-icon="add">add</span>
+</button>
+<button class="p-3 hover:bg-surface-container transition-colors">
+<span class="material-symbols-outlined text-primary" data-icon="remove">remove</span>
+</button>
+</div>
+<button class="p-3 bg-white rounded-xl shadow-xl border border-outline-variant hover:bg-surface-container transition-colors">
+<span class="material-symbols-outlined text-primary" data-icon="my_location">my_location</span>
+</button>
+<button class="p-3 bg-white rounded-xl shadow-xl border border-outline-variant hover:bg-surface-container transition-colors">
+<span class="material-symbols-outlined text-primary" data-icon="layers">layers</span>
+</button>
+</div>
+<!-- Map Footer Overlay (Area Details) -->
+<div class="absolute bottom-10 left-1/2 -translate-x-1/2 z-20 w-max max-w-[90%]">
+<div class="bg-primary-container text-on-primary-container px-6 py-4 rounded-2xl shadow-2xl flex items-center gap-8 backdrop-blur-md">
+<div class="flex flex-col">
+<span class="text-[10px] uppercase tracking-widest opacity-70 font-bold">Estimated Area</span>
+<span class="text-xl font-black">12.45 Hectares</span>
+</div>
+<div class="h-8 w-px bg-on-primary-container/20"></div>
+<div class="flex flex-col">
+<span class="text-[10px] uppercase tracking-widest opacity-70 font-bold">Location</span>
+<span class="text-lg font-semibold">17.96° N, 79.59° E</span>
+</div>
+<div class="h-8 w-px bg-on-primary-container/20"></div>
+<div class="flex flex-col">
+<span class="text-[10px] uppercase tracking-widest opacity-70 font-bold">Perimeter</span>
+<span class="text-lg font-semibold">1,420 m</span>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- BottomNavBar (Mobile Only) -->
+<nav class="md:hidden bg-white dark:bg-stone-900 border-t border-gray-200 dark:border-stone-800 shadow-[0_-4px_12px_rgba(45,71,57,0.08)] fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 h-20 pb-safe">
+<a class="flex flex-col items-center justify-center text-stone-400 dark:text-stone-500 hover:text-[#2D4739] dark:hover:text-emerald-300 transition-all duration-200 active:opacity-80" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="font-['Public_Sans'] text-[12px] font-medium">Dashboard</span>
+</a>
+<a class="flex flex-col items-center justify-center text-[#2D4739] dark:text-emerald-400 font-bold scale-110 transition-transform active:opacity-80" href="#">
+<span class="material-symbols-outlined" data-icon="map" data-weight="fill" style="font-variation-settings: 'FILL' 1;">map</span>
+<span class="font-['Public_Sans'] text-[12px] font-medium">Register Land</span>
+</a>
+<a class="flex flex-col items-center justify-center text-stone-400 dark:text-stone-500 hover:text-[#2D4739] dark:hover:text-emerald-300 transition-all duration-200 active:opacity-80" href="#">
+<span class="material-symbols-outlined" data-icon="person">person</span>
+<span class="font-['Public_Sans'] text-[12px] font-medium">Profile</span>
+</a>
+</nav>
+</body></html>
