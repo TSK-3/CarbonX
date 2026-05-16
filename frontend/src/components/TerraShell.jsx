@@ -26,7 +26,7 @@ export function TerraShell() {
                 return (
                   <NavLink
                     className={({ isActive }) =>
-                      `inline-flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-semibold ${
+                      `inline-flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-semibold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-field/50 ${
                         isActive ? "text-field" : "text-outline hover:text-field"
                       }`
                     }
@@ -41,10 +41,18 @@ export function TerraShell() {
             </nav>
           </div>
           <div className="flex items-center gap-2">
-            <button className="rounded-full p-2 text-outline hover:bg-surface-low hover:text-field" title="Notifications">
+            <button
+              aria-label="Notifications"
+              className="rounded-full p-2 text-outline hover:bg-surface-low hover:text-field focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-field/50"
+              title="Notifications"
+            >
               <Bell size={18} />
             </button>
-            <button className="rounded-full p-2 text-outline hover:bg-surface-low hover:text-field" title="Settings">
+            <button
+              aria-label="Settings"
+              className="rounded-full p-2 text-outline hover:bg-surface-low hover:text-field focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-field/50"
+              title="Settings"
+            >
               <Settings size={18} />
             </button>
             <div className="hidden text-right md:block">
@@ -54,7 +62,12 @@ export function TerraShell() {
             <div className="grid h-8 w-8 place-items-center rounded-full border border-outline-variant bg-surface-container text-field">
               <UserCircle size={20} />
             </div>
-            <button className="rounded-full p-2 text-outline hover:bg-surface-low hover:text-field" onClick={logout} title="Log out">
+            <button
+              aria-label="Log out"
+              className="rounded-full p-2 text-outline hover:bg-surface-low hover:text-field focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-field/50"
+              onClick={logout}
+              title="Log out"
+            >
               <LogOut size={18} />
             </button>
           </div>
