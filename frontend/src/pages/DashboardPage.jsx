@@ -5,6 +5,7 @@ import { api } from "../api.js";
 import { useAuth } from "../auth/AuthContext.jsx";
 import { formatArea, formatInr, formatNumber } from "../utils/format.js";
 import { useI18n } from "../i18n/I18nContext.jsx";
+import { motion } from "framer-motion";
 
 export function DashboardPage() {
   const { token, user } = useAuth();
@@ -15,11 +16,6 @@ export function DashboardPage() {
   const [error, setError] = useState("");
 
   useEffect(() => {
-    if (user?.role === 'buyer') {
-        // Buyers might prefer the marketplace as their primary view
-        // navigate('/marketplace');
-    }
-
     api
       .listFarms(token)
       .then((result) => setFarms(result.farms))
@@ -36,10 +32,28 @@ export function DashboardPage() {
     { acres: 0, tco2e: 0, earnings: 0 }
   );
 
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: { staggerChildren: 0.1 }
+    }
+  };
+
+  const itemVariants = {
+    hidden: { y: 20, opacity: 0 },
+    visible: { y: 0, opacity: 1 }
+  };
+
   if (user?.role === 'buyer') {
     return (
-      <section className="mx-auto max-w-7xl space-y-8 px-5 py-8">
-         <div className="flex flex-col justify-between gap-6 md:flex-row md:items-end">
+      <motion.section
+        variants={containerVariants}
+        initial="hidden"
+        animate="visible"
+        className="mx-auto max-w-7xl space-y-8 px-5 py-8"
+      >
+         <motion.div variants={itemVariants} className="flex flex-col justify-between gap-6 md:flex-row md:items-end">
             <div>
             <p className="terra-kicker">Industry Overview</p>
             <h1 className="mt-1 font-headline-lg text-primary">Carbon Procurement</h1>
@@ -51,10 +65,10 @@ export function DashboardPage() {
             <ShoppingBag size={20} />
             Browse Marketplace
             </Link>
-        </div>
+        </motion.div>
 
         <div className="grid gap-6 md:grid-cols-2">
-            <div className="terra-card p-6 flex items-center gap-6">
+            <motion.div variants={itemVariants} className="terra-card p-6 flex items-center gap-6">
                 <div className="w-16 h-16 rounded-2xl bg-primary/10 flex items-center justify-center text-primary">
                     <TrendingUp size={32} />
                 </div>
@@ -62,8 +76,8 @@ export function DashboardPage() {
                     <h3 className="text-xl font-bold text-primary">Active Bids</h3>
                     <p className="text-on-surface-variant">Check your current bidding status in the marketplace.</p>
                 </div>
-            </div>
-             <div className="terra-card p-6 flex items-center gap-6">
+            </motion.div>
+             <motion.div variants={itemVariants} className="terra-card p-6 flex items-center gap-6">
                 <div className="w-16 h-16 rounded-2xl bg-secondary/10 flex items-center justify-center text-secondary">
                     <Leaf size={32} />
                 </div>
@@ -71,15 +85,20 @@ export function DashboardPage() {
                     <h3 className="text-xl font-bold text-primary">Total Offset</h3>
                     <p className="text-on-surface-variant">0 tCO2e acquired to date.</p>
                 </div>
-            </div>
+            </motion.div>
         </div>
-      </section>
+      </motion.section>
     );
   }
 
   return (
-    <section className="mx-auto max-w-7xl space-y-8 px-5 py-8">
-      <div className="flex flex-col justify-between gap-6 md:flex-row md:items-end">
+    <motion.section
+        variants={containerVariants}
+        initial="hidden"
+        animate="visible"
+        className="mx-auto max-w-7xl space-y-8 px-5 py-8"
+    >
+      <motion.div variants={itemVariants} className="flex flex-col justify-between gap-6 md:flex-row md:items-end">
         <div>
           <p className="terra-kicker">{t("dashboard")}</p>
           <h1 className="mt-1 font-headline-lg text-primary">Your carbon portfolio</h1>
@@ -91,10 +110,10 @@ export function DashboardPage() {
           <Plus size={20} />
           {t("registerLand")}
         </Link>
-      </div>
+      </motion.div>
 
       <div className="grid gap-6 md:grid-cols-3">
-        <div className="terra-card p-6 flex flex-col justify-between min-h-[160px]">
+        <motion.div variants={itemVariants} className="terra-card p-6 flex flex-col justify-between min-h-[160px]">
           <div className="flex justify-between items-start">
             <div className="rounded-xl bg-surface-container p-2.5 text-primary">
               <MapPinned size={24} />
@@ -105,9 +124,9 @@ export function DashboardPage() {
             <p className="terra-kicker">{t("estimatedArea")}</p>
             <p className="mt-1 text-3xl font-black text-primary">{formatArea(totals.acres)}</p>
           </div>
-        </div>
+        </motion.div>
 
-        <div className="terra-card bg-primary-container p-6 text-on-primary-container flex flex-col justify-between min-h-[160px] shadow-2xl">
+        <motion.div variants={itemVariants} className="terra-card bg-primary-container p-6 text-on-primary-container flex flex-col justify-between min-h-[160px] shadow-2xl">
           <div className="flex justify-between items-start">
             <div className="rounded-xl bg-white/10 p-2.5 text-white">
               <Leaf size={24} />
@@ -117,9 +136,9 @@ export function DashboardPage() {
             <p className="text-xs font-bold uppercase tracking-[0.1em] opacity-70">Carbon estimate</p>
             <p className="mt-1 text-3xl font-black text-white">{formatNumber(totals.tco2e)} tCO2e</p>
           </div>
-        </div>
+        </motion.div>
 
-        <div className="terra-card p-6 flex flex-col justify-between min-h-[160px]">
+        <motion.div variants={itemVariants} className="terra-card p-6 flex flex-col justify-between min-h-[160px]">
           <div className="flex justify-between items-start">
             <div className="rounded-xl bg-tertiary-container/10 p-2.5 text-tertiary">
               <CreditCard size={24} />
@@ -129,7 +148,7 @@ export function DashboardPage() {
             <p className="terra-kicker">{t("earnings")}</p>
             <p className="mt-1 text-3xl font-black text-primary">{formatInr(totals.earnings)}</p>
           </div>
-        </div>
+        </motion.div>
       </div>
 
       {loading ? (
@@ -138,10 +157,10 @@ export function DashboardPage() {
         </div>
       ) : null}
 
-      {error ? <p className="rounded-xl bg-error-container p-4 text-on-error-container font-medium">{error}</p> : null}
+      {error ? <motion.p variants={itemVariants} className="rounded-xl bg-error-container p-4 text-on-error-container font-medium">{error}</motion.p> : null}
 
       {!loading && !farms.length ? (
-        <div className="terra-card border-dashed p-12 text-center bg-surface-container-low">
+        <motion.div variants={itemVariants} className="terra-card border-dashed p-12 text-center bg-surface-container-low">
           <div className="mx-auto w-20 h-20 rounded-full bg-surface-container flex items-center justify-center mb-6">
             <Leaf className="text-outline" size={40} />
           </div>
@@ -153,52 +172,53 @@ export function DashboardPage() {
             <Plus size={20} />
             {t("registerLand")}
           </Link>
-        </div>
+        </motion.div>
       ) : null}
 
       {farms.length ? (
         <div className="space-y-4">
-          <h2 className="font-headline-md text-primary">Registered Lands</h2>
+          <motion.h2 variants={itemVariants} className="font-headline-md text-primary">Registered Lands</motion.h2>
           <div className="grid gap-4">
             {farms.map((farm) => (
-              <Link
-                key={farm.id}
-                to={`/farms/${farm.id}`}
-                className="terra-card p-4 hover:border-primary transition-all group flex items-center justify-between"
-              >
-                <div className="flex items-center gap-4">
-                  <div className="w-16 h-16 rounded-lg bg-surface-dim overflow-hidden">
-                    <div className="w-full h-full bg-secondary/10 flex items-center justify-center">
-                        <MapPinned size={24} className="text-secondary" />
+              <motion.div key={farm.id} variants={itemVariants}>
+                <Link
+                    to={`/farms/${farm.id}`}
+                    className="terra-card p-4 hover:border-primary transition-all group flex items-center justify-between"
+                >
+                    <div className="flex items-center gap-4">
+                    <div className="w-16 h-16 rounded-lg bg-surface-dim overflow-hidden">
+                        <div className="w-full h-full bg-secondary/10 flex items-center justify-center">
+                            <MapPinned size={24} className="text-secondary" />
+                        </div>
                     </div>
-                  </div>
-                  <div>
-                    <h3 className="font-bold text-primary group-hover:text-primary-container transition-colors">{farm.name}</h3>
-                    <div className="flex items-center gap-3 mt-1 text-sm text-outline font-medium">
-                      <span>{formatArea(farm.areaAcres)}</span>
-                      <span>•</span>
-                      <span>{formatNumber(farm.ndviScore)} NDVI</span>
+                    <div>
+                        <h3 className="font-bold text-primary group-hover:text-primary-container transition-colors">{farm.name}</h3>
+                        <div className="flex items-center gap-3 mt-1 text-sm text-outline font-medium">
+                        <span>{formatArea(farm.areaAcres)}</span>
+                        <span>•</span>
+                        <span>{formatNumber(farm.ndviScore)} NDVI</span>
+                        </div>
                     </div>
-                  </div>
-                </div>
+                    </div>
 
-                <div className="flex items-center gap-8">
-                  <div className="hidden md:block text-right">
-                    <p className="text-xs font-bold uppercase tracking-wider text-outline">{t("earnings")}</p>
-                    <p className="font-black text-primary">{formatInr(farm.earningsEstimateInr)}</p>
-                  </div>
-                  <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-secondary-container/30 text-secondary text-xs font-bold uppercase tracking-widest">
-                    <div className="w-2 h-2 rounded-full bg-secondary animate-pulse" />
-                    {farm.status}
-                  </div>
-                  <ChevronRight size={20} className="text-outline group-hover:text-primary transition-colors" />
-                </div>
-              </Link>
+                    <div className="flex items-center gap-8">
+                    <div className="hidden md:block text-right">
+                        <p className="text-xs font-bold uppercase tracking-wider text-outline">{t("earnings")}</p>
+                        <p className="font-black text-primary">{formatInr(farm.earningsEstimateInr)}</p>
+                    </div>
+                    <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-secondary-container/30 text-secondary text-xs font-bold uppercase tracking-widest">
+                        <div className="w-2 h-2 rounded-full bg-secondary animate-pulse" />
+                        {farm.status}
+                    </div>
+                    <ChevronRight size={20} className="text-outline group-hover:text-primary transition-colors" />
+                    </div>
+                </Link>
+              </motion.div>
             ))}
           </div>
         </div>
       ) : null}
-    </section>
+    </motion.section>
   );
 }
 

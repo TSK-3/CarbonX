@@ -8,7 +8,7 @@ import { useEffect, useRef, useState, useCallback } from "react";
 import { FeatureGroup, MapContainer, TileLayer, useMap } from "react-leaflet";
 import { calculateAreaAcresFromLatLngs, latLngsToPolygon, calculateAreaAcresFromGeoJson } from "../utils/geo.js";
 import { useI18n } from "../i18n/I18nContext.jsx";
-import { Search, LocateFixed, Layers, Plus, Minus } from "lucide-react";
+import { Search, LocateFixed, Layers, Plus, Minus, MousePointer2 } from "lucide-react";
 
 const FTW_PM_TILES_URL = "https://data.source.coop/kerner-lab/fields-of-the-world/ftw-sources.pmtiles";
 const FTW_SOURCE_LAYER = "ftw-sources";
@@ -22,7 +22,6 @@ function ensurePmtilesProtocol() {
   protocolRegistered = true;
 }
 
-// Custom hook to sync Leaflet and MapLibre (as a vector layer overlay)
 function MapLibreOverlay({ visible }) {
   const map = useMap();
   const containerRef = useRef(null);
@@ -46,7 +45,7 @@ function MapLibreOverlay({ visible }) {
     container.style.width = '100%';
     container.style.height = '100%';
     container.style.zIndex = '400';
-    container.style.pointerEvents = 'none'; // Let Leaflet handle interactions unless we click a field
+    container.style.pointerEvents = 'none';
     containerRef.current = container;
 
     const glMap = new maplibregl.Map({
@@ -98,7 +97,7 @@ function MapLibreOverlay({ visible }) {
   return null;
 }
 
-function DrawControls({ onBoundaryChange, onClear }) {
+function DrawControls({ onBoundaryChange }) {
   const map = useMap();
   const featureGroupRef = useRef(null);
 
@@ -107,15 +106,25 @@ function DrawControls({ onBoundaryChange, onClear }) {
     if (!featureGroup) return;
 
     const drawControl = new L.Control.Draw({
+      position: 'bottomleft',
       draw: {
         polyline: false, rectangle: false, circle: false, circlemarker: false, marker: false,
         polygon: {
           allowIntersection: false,
           showArea: true,
-          shapeOptions: { color: "#173124", fillColor: "#98b5a3", fillOpacity: 0.4 }
+          shapeOptions: {
+            color: "#173124",
+            fillColor: "#98b5a3",
+            fillOpacity: 0.4,
+            weight: 3
+          }
         }
       },
-      edit: { featureGroup, remove: true }
+      edit: {
+        featureGroup,
+        remove: true,
+        allowIntersection: false
+      }
     });
 
     map.addControl(drawControl);
@@ -194,10 +203,10 @@ export function LandSelectionMap({ onBoundaryChange }) {
 
       <div className="absolute right-4 top-20 z-[1000] flex flex-col gap-3">
         <div className="flex flex-col overflow-hidden rounded-xl border border-outline-variant bg-white/90 shadow-lg backdrop-blur-md">
-            <button onClick={handleZoomIn} className="p-3 hover:bg-surface-container transition-colors border-b border-outline-variant">
+            <button onClick={handleZoomIn} className="p-3 hover:bg-surface-container transition-colors border-b border-outline-variant" title="Zoom In">
                 <Plus size={20} className="text-primary" />
             </button>
-            <button onClick={handleZoomOut} className="p-3 hover:bg-surface-container transition-colors">
+            <button onClick={handleZoomOut} className="p-3 hover:bg-surface-container transition-colors" title="Zoom Out">
                 <Minus size={20} className="text-primary" />
             </button>
         </div>
@@ -205,6 +214,7 @@ export function LandSelectionMap({ onBoundaryChange }) {
         <button
             onClick={handleLocate}
             className="rounded-xl border border-outline-variant bg-white/90 p-3 text-primary shadow-lg backdrop-blur-md hover:bg-surface-container"
+            title="Locate Me"
         >
           <LocateFixed size={20} />
         </button>
@@ -225,12 +235,12 @@ export function LandSelectionMap({ onBoundaryChange }) {
         <div className="rounded-xl border border-secondary-container bg-secondary-container/80 p-4 shadow-xl backdrop-blur-md">
             <div className="flex items-start gap-3">
                 <div className="rounded-full bg-secondary p-1 text-white">
-                    <Layers size={14} />
+                    <MousePointer2 size={14} />
                 </div>
                 <div className="space-y-1">
-                    <p className="text-xs font-bold text-secondary uppercase tracking-wider">{t("mappingTip")}</p>
+                    <p className="text-xs font-bold text-secondary uppercase tracking-wider">Multi-Point Mapping</p>
                     <p className="text-[11px] leading-relaxed text-on-secondary-container font-medium">
-                        {t("mappingTipText")}
+                        Click as many times as needed to outline your field accurately. There is no limit to the number of points. Double-click or click the first point to finish.
                     </p>
                 </div>
             </div>
