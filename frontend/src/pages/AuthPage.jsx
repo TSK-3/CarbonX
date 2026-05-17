@@ -109,7 +109,7 @@ export function AuthPage() {
             <form className="space-y-5" onSubmit={submit}>
               {mode === "register" ? (
                 <div className="space-y-1.5">
-                  <label className="label">"Full Name"</label>
+                  <label className="label">{t("farmerName")}</label>
                   <input className="input" name="name" value={values.name} onChange={updateValue} placeholder="Enter your full name" />
                 </div>
               ) : null}
