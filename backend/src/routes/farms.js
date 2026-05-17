@@ -8,7 +8,9 @@ export const farmsRouter = express.Router();
 
 farmsRouter.use(requireAuth);
 
-function serializeFarm(farm) {
+async function serializeFarm(farm) {
+  const auction = await get("SELECT id FROM auctions WHERE farm_id = ? AND status = 'active'", [farm.id]);
+
   return {
     id: farm.id,
     userId: farm.user_id,
@@ -21,6 +23,7 @@ function serializeFarm(farm) {
     status: farm.status,
     nftTokenId: farm.nft_token_id,
     nftContractAddress: farm.nft_contract_address,
+    auctionActive: !!auction,
     createdAt: farm.created_at
   };
 }
@@ -64,7 +67,7 @@ farmsRouter.post("/", async (req, res, next) => {
       result.id,
       req.user.id
     ]);
-    res.status(201).json({ farm: serializeFarm(farm) });
+    res.status(201).json({ farm: await serializeFarm(farm) });
   } catch (error) {
     if (error.message.includes("Boundary")) {
       res.status(400).json({ message: error.message });
@@ -80,7 +83,8 @@ farmsRouter.get("/", async (req, res, next) => {
       "SELECT * FROM farms WHERE user_id = ? ORDER BY created_at DESC, id DESC",
       [req.user.id]
     );
-    res.json({ farms: farms.map(serializeFarm) });
+    const serializedFarms = await Promise.all(farms.map(serializeFarm));
+    res.json({ farms: serializedFarms });
   } catch (error) {
     next(error);
   }
@@ -98,7 +102,7 @@ farmsRouter.get("/:id", async (req, res, next) => {
       return;
     }
 
-    res.json({ farm: serializeFarm(farm) });
+    res.json({ farm: await serializeFarm(farm) });
   } catch (error) {
     next(error);
   }
@@ -137,7 +141,7 @@ farmsRouter.post("/:id/calculate", async (req, res, next) => {
       farm.id,
       req.user.id
     ]);
-    res.json({ farm: serializeFarm(updatedFarm) });
+    res.json({ farm: await serializeFarm(updatedFarm) });
   } catch (error) {
     next(error);
   }
@@ -162,7 +166,7 @@ farmsRouter.post("/:id/mint", async (req, res, next) => {
     );
 
     const updatedFarm = await get("SELECT * FROM farms WHERE id = ?", [farm.id]);
-    res.json({ farm: serializeFarm(updatedFarm) });
+    res.json({ farm: await serializeFarm(updatedFarm) });
   } catch (error) {
     next(error);
   }
