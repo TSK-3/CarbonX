@@ -1,13 +1,14 @@
-import { BarChart3, CreditCard, FileCheck2, Leaf, MapPinned, Plus, TrendingUp } from "lucide-react";
+import { BarChart3, CreditCard, FileCheck2, Leaf, MapPinned, Plus, TrendingUp, ChevronRight } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { api } from "../api.js";
 import { useAuth } from "../auth/AuthContext.jsx";
-import { Metric } from "../components/Metric.jsx";
 import { formatArea, formatInr, formatNumber } from "../utils/format.js";
+import { useI18n } from "../i18n/I18nContext.jsx";
 
 export function DashboardPage() {
   const { token } = useAuth();
+  const { t } = useI18n();
   const [farms, setFarms] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -30,88 +31,146 @@ export function DashboardPage() {
   );
 
   return (
-    <section className="mx-auto max-w-7xl space-y-6 px-5 py-8">
-      <div className="flex flex-col justify-between gap-4 md:flex-row md:items-end">
+    <section className="mx-auto max-w-7xl space-y-8 px-5 py-8">
+      <div className="flex flex-col justify-between gap-6 md:flex-row md:items-end">
         <div>
-          <p className="terra-kicker">Farmer dashboard</p>
-          <h1 className="mt-1 text-4xl font-black text-field">Your carbon portfolio</h1>
-          <p className="mt-2 text-stone-600">Track registered land, estimated sequestration, and verification readiness.</p>
+          <p className="terra-kicker">{t("dashboard")}</p>
+          <h1 className="mt-1 font-headline-lg text-primary">Your carbon portfolio</h1>
+          <p className="mt-2 font-body-md text-on-surface-variant max-w-2xl">
+            Track registered land, estimated sequestration, and verification readiness.
+          </p>
         </div>
-        <Link to="/farms/new" className="btn-primary">
-          <Plus size={18} />
-          Register Farm
+        <Link to="/farms/new" className="btn-primary h-14 px-6 rounded-xl shadow-xl">
+          <Plus size={20} />
+          {t("registerLand")}
         </Link>
       </div>
 
-      <div className="grid gap-4 md:grid-cols-3">
-        <div className="terra-card p-5">
-          <MapPinned className="text-field" size={22} />
-          <p className="terra-kicker mt-4">Total land</p>
-          <p className="mt-2 text-3xl font-black text-field">{formatArea(totals.acres)}</p>
+      <div className="grid gap-6 md:grid-cols-3">
+        <div className="terra-card p-6 flex flex-col justify-between min-h-[160px]">
+          <div className="flex justify-between items-start">
+            <div className="rounded-xl bg-surface-container p-2.5 text-primary">
+              <MapPinned size={24} />
+            </div>
+            <TrendingUp size={20} className="text-secondary" />
+          </div>
+          <div>
+            <p className="terra-kicker">{t("estimatedArea")}</p>
+            <p className="mt-1 text-3xl font-black text-primary">{formatArea(totals.acres)}</p>
+          </div>
         </div>
-        <div className="terra-card bg-primary-container p-5 text-sage">
-          <TrendingUp size={22} />
-          <p className="mt-4 text-xs font-semibold uppercase tracking-[0.08em]">Carbon estimate</p>
-          <p className="mt-2 text-3xl font-black">{formatNumber(totals.tco2e)} tCO2e</p>
+
+        <div className="terra-card bg-primary-container p-6 text-on-primary-container flex flex-col justify-between min-h-[160px] shadow-2xl">
+          <div className="flex justify-between items-start">
+            <div className="rounded-xl bg-white/10 p-2.5 text-white">
+              <Leaf size={24} />
+            </div>
+          </div>
+          <div>
+            <p className="text-xs font-bold uppercase tracking-[0.1em] opacity-70">Carbon estimate</p>
+            <p className="mt-1 text-3xl font-black text-white">{formatNumber(totals.tco2e)} tCO2e</p>
+          </div>
         </div>
-        <div className="terra-card p-5">
-          <CreditCard className="text-field" size={22} />
-          <p className="terra-kicker mt-4">Potential earnings</p>
-          <p className="mt-2 text-3xl font-black text-field">{formatInr(totals.earnings)}</p>
+
+        <div className="terra-card p-6 flex flex-col justify-between min-h-[160px]">
+          <div className="flex justify-between items-start">
+            <div className="rounded-xl bg-tertiary-container/10 p-2.5 text-tertiary">
+              <CreditCard size={24} />
+            </div>
+          </div>
+          <div>
+            <p className="terra-kicker">{t("earnings")}</p>
+            <p className="mt-1 text-3xl font-black text-primary">{formatInr(totals.earnings)}</p>
+          </div>
         </div>
       </div>
 
-      {loading ? <p className="terra-card p-6">Loading farms...</p> : null}
-      {error ? <p className="rounded-lg bg-red-50 p-4 text-red-700">{error}</p> : null}
+      {loading ? (
+        <div className="flex items-center justify-center py-20">
+          <RotateCcw className="animate-spin text-primary" size={40} />
+        </div>
+      ) : null}
+
+      {error ? <p className="rounded-xl bg-error-container p-4 text-on-error-container font-medium">{error}</p> : null}
 
       {!loading && !farms.length ? (
-        <div className="terra-card border-dashed p-10 text-center">
-          <Leaf className="mx-auto text-field" size={36} />
-          <h2 className="mt-3 text-xl font-bold text-ink">No farms registered yet</h2>
-          <p className="mx-auto mt-2 max-w-lg text-sm text-stone-600">
+        <div className="terra-card border-dashed p-12 text-center bg-surface-container-low">
+          <div className="mx-auto w-20 h-20 rounded-full bg-surface-container flex items-center justify-center mb-6">
+            <Leaf className="text-outline" size={40} />
+          </div>
+          <h2 className="text-2xl font-bold text-primary">No farms registered yet</h2>
+          <p className="mx-auto mt-3 max-w-lg text-on-surface-variant font-body-md">
             Draw the first boundary to generate a demo-ready NDVI and carbon estimate.
           </p>
-          <Link to="/farms/new" className="btn-primary mt-5">
-            <Plus size={17} />
-            Register Farm
+          <Link to="/farms/new" className="btn-primary mt-8 h-14 px-8 rounded-xl">
+            <Plus size={20} />
+            {t("registerLand")}
           </Link>
         </div>
       ) : null}
 
       {farms.length ? (
-        <div className="overflow-hidden rounded-xl border border-outline-variant bg-white">
-          <div className="grid grid-cols-[1.2fr_0.8fr_0.7fr_0.8fr_0.9fr_0.7fr_0.7fr] gap-3 border-b border-outline-variant bg-surface-low px-4 py-3 text-xs font-bold uppercase tracking-wide text-outline">
-            <span>Farm</span>
-            <span>Area</span>
-            <span>NDVI</span>
-            <span>Carbon</span>
-            <span>Earnings</span>
-            <span>Status</span>
-            <span>Review</span>
+        <div className="space-y-4">
+          <h2 className="font-headline-md text-primary">Registered Lands</h2>
+          <div className="grid gap-4">
+            {farms.map((farm) => (
+              <Link
+                key={farm.id}
+                to={`/farms/${farm.id}`}
+                className="terra-card p-4 hover:border-primary transition-all group flex items-center justify-between"
+              >
+                <div className="flex items-center gap-4">
+                  <div className="w-16 h-16 rounded-lg bg-surface-dim overflow-hidden">
+                    <div className="w-full h-full bg-secondary/10 flex items-center justify-center">
+                        <MapPinned size={24} className="text-secondary" />
+                    </div>
+                  </div>
+                  <div>
+                    <h3 className="font-bold text-primary group-hover:text-primary-container transition-colors">{farm.name}</h3>
+                    <div className="flex items-center gap-3 mt-1 text-sm text-outline font-medium">
+                      <span>{formatArea(farm.areaAcres)}</span>
+                      <span>•</span>
+                      <span>{formatNumber(farm.ndviScore)} NDVI</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="flex items-center gap-8">
+                  <div className="hidden md:block text-right">
+                    <p className="text-xs font-bold uppercase tracking-wider text-outline">{t("earnings")}</p>
+                    <p className="font-black text-primary">{formatInr(farm.earningsEstimateInr)}</p>
+                  </div>
+                  <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-secondary-container/30 text-secondary text-xs font-bold uppercase tracking-widest">
+                    <div className="w-2 h-2 rounded-full bg-secondary animate-pulse" />
+                    {farm.status}
+                  </div>
+                  <ChevronRight size={20} className="text-outline group-hover:text-primary transition-colors" />
+                </div>
+              </Link>
+            ))}
           </div>
-          {farms.map((farm) => (
-            <Link
-              className="grid grid-cols-[1.2fr_0.8fr_0.7fr_0.8fr_0.9fr_0.7fr_0.7fr] gap-3 border-b border-stone-100 px-4 py-4 text-sm transition last:border-b-0 hover:bg-sage-soft/25"
-              key={farm.id}
-              to={`/farms/${farm.id}`}
-            >
-              <span className="font-semibold text-ink">{farm.name}</span>
-              <span>{formatArea(farm.areaAcres)}</span>
-              <span>{formatNumber(farm.ndviScore)}</span>
-              <span>{formatNumber(farm.tco2eEstimate)} tCO2e</span>
-              <span>{formatInr(farm.earningsEstimateInr)}</span>
-              <span className="inline-flex items-center gap-1 font-semibold capitalize text-field">
-                <BarChart3 size={15} />
-                {farm.status}
-              </span>
-              <span className="inline-flex items-center gap-1 font-semibold text-field">
-                <FileCheck2 size={15} />
-                Open
-              </span>
-            </Link>
-          ))}
         </div>
       ) : null}
     </section>
   );
 }
+
+function RotateCcw(props) {
+    return (
+      <svg
+        {...props}
+        xmlns="http://www.w3.org/2000/svg"
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      >
+        <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" />
+        <path d="M3 3v5h5" />
+      </svg>
+    )
+  }
