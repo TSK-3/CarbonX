@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Bell, CreditCard, FileCheck2, LayoutDashboard, LogOut, MapPinned, Settings, UserCircle, Languages } from "lucide-react";
+import { Bell, CreditCard, FileCheck2, LayoutDashboard, LogOut, MapPinned, Settings, UserCircle, Languages, ShoppingBag } from "lucide-react";
 import { NavLink, Outlet } from "react-router-dom";
 import { useAuth } from "../auth/AuthContext.jsx";
 import { useI18n } from "../i18n/I18nContext.jsx";
@@ -13,7 +13,8 @@ export function TerraShell() {
     { to: "/", label: t("dashboard"), icon: LayoutDashboard },
     { to: "/farms/new", label: t("registerLand"), icon: MapPinned },
     { to: "/verification", label: t("verification"), icon: FileCheck2 },
-    { to: "/earnings", label: t("earnings"), icon: CreditCard }
+    { to: "/earnings", label: t("earnings"), icon: CreditCard },
+    { to: "/marketplace", label: "Marketplace", icon: ShoppingBag }
   ];
 
   const languages = [
@@ -95,8 +96,8 @@ export function TerraShell() {
               <Settings size={18} />
             </button>
             <div className="hidden text-right md:block">
-              <p className="text-sm font-semibold text-on-surface">{user?.name || "Farmer"}</p>
-              <p className="text-xs text-outline">{user?.phone}</p>
+              <p className="text-sm font-semibold text-on-surface">{user?.name || "User"}</p>
+              <p className="text-[10px] uppercase font-bold text-primary tracking-widest">{user?.role}</p>
             </div>
             <div className="grid h-8 w-8 place-items-center rounded-full border border-outline-variant bg-surface-container text-primary">
               <UserCircle size={20} />
@@ -119,7 +120,7 @@ export function TerraShell() {
 
       {/* Mobile Navigation */}
       <nav className="fixed bottom-0 left-0 z-50 flex h-20 w-full items-center justify-around border-t border-outline-variant bg-white px-4 pb-safe md:hidden">
-        {navItems.slice(0, 3).map((item) => {
+        {navItems.slice(0, 5).map((item) => {
           const Icon = item.icon;
           return (
             <NavLink
@@ -136,17 +137,6 @@ export function TerraShell() {
             </NavLink>
           );
         })}
-        <NavLink
-            to="/profile"
-            className={({ isActive }) =>
-            `flex flex-col items-center justify-center gap-1 transition-all ${
-                isActive ? "scale-110 text-primary font-bold" : "text-outline"
-            }`
-            }
-        >
-            <UserCircle size={24} />
-            <span className="text-[10px] font-medium uppercase tracking-wider">{t("profile")}</span>
-        </NavLink>
       </nav>
     </div>
   );

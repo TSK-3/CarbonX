@@ -1,4 +1,4 @@
-import { AlertCircle, Leaf, Loader2, LogIn, ShieldCheck, Sprout, UserPlus } from "lucide-react";
+import { AlertCircle, Leaf, Loader2, LogIn, ShieldCheck, Sprout, UserPlus, Briefcase, User } from "lucide-react";
 import { useState } from "react";
 import { useAuth } from "../auth/AuthContext.jsx";
 import { useI18n } from "../i18n/I18nContext.jsx";
@@ -10,7 +10,8 @@ export function AuthPage() {
   const [values, setValues] = useState({
     name: "Ramaiah",
     phone: "9876543210",
-    password: "carbonx123"
+    password: "carbonx123",
+    role: "farmer"
   });
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
@@ -80,12 +81,12 @@ export function AuthPage() {
 
           <div className="terra-card p-8 shadow-2xl">
             <div className="mb-8">
-              <p className="terra-kicker">Farmer access</p>
+              <p className="terra-kicker">Secure Access</p>
               <h2 className="mt-2 text-3xl font-bold text-primary">
                 {mode === "register" ? "Create your account" : "Welcome back"}
               </h2>
               <p className="mt-2 text-sm leading-6 text-on-surface-variant font-medium">
-                Continue to your land registry, estimates, and verification tasks.
+                {mode === "register" ? "Join our ecosystem for carbon credit generation and trading." : "Continue to your dashboard and tasks."}
               </p>
             </div>
 
@@ -107,10 +108,31 @@ export function AuthPage() {
             </div>
 
             <form className="space-y-5" onSubmit={submit}>
+              {mode === "register" && (
+                <div className="grid grid-cols-2 gap-4 mb-4">
+                  <button
+                    type="button"
+                    onClick={() => setValues(v => ({...v, role: 'farmer'}))}
+                    className={`flex flex-col items-center gap-2 p-3 rounded-xl border-2 transition-all ${values.role === 'farmer' ? 'border-primary bg-primary/5 text-primary' : 'border-surface-container-highest text-outline'}`}
+                  >
+                    <User size={24} />
+                    <span className="text-xs font-bold uppercase">Farmer</span>
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setValues(v => ({...v, role: 'buyer'}))}
+                    className={`flex flex-col items-center gap-2 p-3 rounded-xl border-2 transition-all ${values.role === 'buyer' ? 'border-primary bg-primary/5 text-primary' : 'border-surface-container-highest text-outline'}`}
+                  >
+                    <Briefcase size={24} />
+                    <span className="text-xs font-bold uppercase">Buyer</span>
+                  </button>
+                </div>
+              )}
+
               {mode === "register" ? (
                 <div className="space-y-1.5">
-                  <label className="label" htmlFor="name">{t("farmerName")}</label>
-                  <input id="name" className="input" name="name" value={values.name} onChange={updateValue} placeholder="Enter your full name" />
+                  <label className="label" htmlFor="name">{values.role === 'farmer' ? t("farmerName") : "Business Name"}</label>
+                  <input id="name" className="input" name="name" value={values.name} onChange={updateValue} placeholder="Enter full name or business" />
                 </div>
               ) : null}
 

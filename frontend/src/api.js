@@ -42,5 +42,24 @@ export const api = {
     request(`/api/farms/${id}/calculate`, {
       method: "POST",
       token
+    }),
+  mintFarmNft: (token, id, body) =>
+    request(`/api/farms/${id}/mint`, {
+      method: "POST",
+      token,
+      body: JSON.stringify(body)
+    }),
+  listAuctions: (token) => request("/api/auctions", { token }),
+  createAuction: (token, body) =>
+    request("/api/auctions", {
+      method: "POST",
+      token,
+      body: JSON.stringify(body)
+    }),
+  placeBid: (token, id, body) =>
+    request(`/api/auctions/${id}/bid`, {
+      method: "POST",
+      token,
+      body: JSON.stringify(body)
     })
 };
