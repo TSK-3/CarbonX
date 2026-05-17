@@ -1,4 +1,4 @@
-import { Leaf, LogIn, ShieldCheck, Sprout, UserPlus, RotateCcw } from "lucide-react";
+import { AlertCircle, Leaf, Loader2, LogIn, ShieldCheck, Sprout, UserPlus } from "lucide-react";
 import { useState } from "react";
 import { useAuth } from "../auth/AuthContext.jsx";
 import { useI18n } from "../i18n/I18nContext.jsx";
@@ -109,19 +109,20 @@ export function AuthPage() {
             <form className="space-y-5" onSubmit={submit}>
               {mode === "register" ? (
                 <div className="space-y-1.5">
-                  <label className="label">{t("farmerName")}</label>
-                  <input className="input" name="name" value={values.name} onChange={updateValue} placeholder="Enter your full name" />
+                  <label className="label" htmlFor="name">{t("farmerName")}</label>
+                  <input id="name" className="input" name="name" value={values.name} onChange={updateValue} placeholder="Enter your full name" />
                 </div>
               ) : null}
 
               <div className="space-y-1.5">
-                <label className="label">Phone</label>
-                <input className="input" name="phone" value={values.phone} onChange={updateValue} placeholder="Phone number" />
+                <label className="label" htmlFor="phone">Phone</label>
+                <input id="phone" className="input" name="phone" value={values.phone} onChange={updateValue} placeholder="Phone number" />
               </div>
 
               <div className="space-y-1.5">
-                <label className="label">Password</label>
+                <label className="label" htmlFor="password">Password</label>
                 <input
+                  id="password"
                   className="input"
                   name="password"
                   type="password"
@@ -131,10 +132,15 @@ export function AuthPage() {
                 />
               </div>
 
-              {error ? <p className="rounded-xl bg-error-container p-3 text-sm font-semibold text-on-error-container">{error}</p> : null}
+              {error ? (
+                <p className="flex items-center gap-2 rounded-xl bg-error-container px-3 py-2 text-sm font-semibold text-on-error-container">
+                  <AlertCircle size={16} />
+                  {error}
+                </p>
+              ) : null}
 
               <button className="btn-primary h-14 w-full rounded-xl text-lg shadow-xl mt-4" disabled={loading} type="submit">
-                {loading ? <RotateCcw className="animate-spin" size={20} /> : mode === "register" ? <UserPlus size={20} /> : <LogIn size={20} />}
+                {loading ? <Loader2 className="animate-spin" size={20} /> : mode === "register" ? <UserPlus size={20} /> : <LogIn size={20} />}
                 {loading ? "Please wait" : mode === "register" ? "Create Account" : "Log In"}
               </button>
             </form>
