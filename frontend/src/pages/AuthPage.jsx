@@ -1,4 +1,4 @@
-import { AlertCircle, Leaf, Loader2, LogIn, ShieldCheck, Sprout, UserPlus } from "lucide-react";
+import { Leaf, LogIn, ShieldCheck, Sprout, UserPlus, RotateCcw, AlertCircle } from "lucide-react";
 import { useState } from "react";
 import { useAuth } from "../auth/AuthContext.jsx";
 import { useI18n } from "../i18n/I18nContext.jsx";
@@ -109,7 +109,7 @@ export function AuthPage() {
             <form className="space-y-5" onSubmit={submit}>
               {mode === "register" ? (
                 <div className="space-y-1.5">
-                  <label className="label" htmlFor="name">{t("farmerName")}</label>
+                  <label className="label" htmlFor="name">Full Name</label>
                   <input id="name" className="input" name="name" value={values.name} onChange={updateValue} placeholder="Enter your full name" />
                 </div>
               ) : null}
@@ -133,14 +133,14 @@ export function AuthPage() {
               </div>
 
               {error ? (
-                <p className="flex items-center gap-2 rounded-xl bg-error-container px-3 py-2 text-sm font-semibold text-on-error-container">
-                  <AlertCircle size={16} />
-                  {error}
+                <p className="flex items-center gap-2 rounded-xl bg-error-container p-3 text-sm font-semibold text-on-error-container">
+                    <AlertCircle size={16} />
+                    {error}
                 </p>
               ) : null}
 
-              <button className="btn-primary h-14 w-full rounded-xl text-lg shadow-xl mt-4" disabled={loading} type="submit">
-                {loading ? <Loader2 className="animate-spin" size={20} /> : mode === "register" ? <UserPlus size={20} /> : <LogIn size={20} />}
+              <button className="btn-primary h-14 w-full rounded-xl text-lg shadow-xl mt-4 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50" disabled={loading} type="submit">
+                {loading ? <RotateCcw className="animate-spin" size={20} /> : mode === "register" ? <UserPlus size={20} /> : <LogIn size={20} />}
                 {loading ? "Please wait" : mode === "register" ? "Create Account" : "Log In"}
               </button>
             </form>

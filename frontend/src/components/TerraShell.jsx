@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { Bell, CreditCard, FileCheck2, LayoutDashboard, LogOut, MapPinned, Settings, UserCircle, Languages } from "lucide-react";
 import { NavLink, Outlet } from "react-router-dom";
 import { useAuth } from "../auth/AuthContext.jsx";
@@ -7,7 +6,6 @@ import { useI18n } from "../i18n/I18nContext.jsx";
 export function TerraShell() {
   const { user, logout } = useAuth();
   const { lang, setLang, t } = useI18n();
-  const [langOpen, setLangOpen] = useState(false);
 
   const navItems = [
     { to: "/", label: t("dashboard"), icon: LayoutDashboard },
@@ -51,42 +49,35 @@ export function TerraShell() {
             </nav>
           </div>
           <div className="flex items-center gap-2">
-            <div className="relative">
+            <div className="relative group">
               <button
-                aria-expanded={langOpen}
-                aria-haspopup="listbox"
-                aria-label="Select language"
                 className="flex items-center gap-1.5 rounded-lg border border-outline-variant px-2.5 py-1.5 text-sm font-semibold text-on-surface-variant hover:bg-surface-container focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50"
-                onClick={() => setLangOpen((o) => !o)}
-                type="button"
+                aria-label="Change Language"
               >
                 <Languages size={16} />
                 <span className="uppercase">{lang}</span>
               </button>
-              {langOpen && (
-                <div className="absolute right-0 top-full z-50 mt-1 w-32 rounded-lg border border-outline-variant bg-white py-1 shadow-lg" role="listbox">
-                  {languages.map((l) => (
-                    <button
-                      key={l.code}
-                      onClick={() => { setLang(l.code); setLangOpen(false); }}
-                      className="w-full px-4 py-2 text-left text-sm hover:bg-surface-container focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50"
-                      role="option"
-                      aria-selected={lang === l.code}
-                    >
-                      {l.label}
-                    </button>
-                  ))}
-                </div>
-              )}
+              <div className="absolute right-0 top-full mt-1 hidden w-32 flex-col rounded-lg border border-outline-variant bg-white py-1 shadow-lg group-hover:flex">
+                {languages.map((l) => (
+                  <button
+                    key={l.code}
+                    onClick={() => setLang(l.code)}
+                    className="px-4 py-2 text-left text-sm hover:bg-surface-container"
+                  >
+                    {l.label}
+                  </button>
+                ))}
+              </div>
             </div>
 
             <button
-              aria-label="Notifications"
-              className="rounded-full p-2 text-outline hover:bg-surface-container hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50"
-              title="Notifications"
+                aria-label="Notifications"
+                className="rounded-full p-2 text-outline hover:bg-surface-container hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50"
+                title="Notifications"
             >
               <Bell size={18} />
             </button>
+
             <button
               aria-label="Settings"
               className="rounded-full p-2 text-outline hover:bg-surface-container hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50"
@@ -94,6 +85,7 @@ export function TerraShell() {
             >
               <Settings size={18} />
             </button>
+
             <div className="hidden text-right md:block">
               <p className="text-sm font-semibold text-on-surface">{user?.name || "Farmer"}</p>
               <p className="text-xs text-outline">{user?.phone}</p>
@@ -102,10 +94,10 @@ export function TerraShell() {
               <UserCircle size={20} />
             </div>
             <button
-              aria-label="Log out"
-              className="rounded-full p-2 text-outline hover:bg-surface-container hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50"
-              onClick={logout}
-              title="Log out"
+                aria-label="Log out"
+                className="rounded-full p-2 text-outline hover:bg-surface-container hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50"
+                onClick={logout}
+                title="Log out"
             >
               <LogOut size={18} />
             </button>
