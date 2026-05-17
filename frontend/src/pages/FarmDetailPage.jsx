@@ -1,19 +1,25 @@
-import { RefreshCcw, MapPinned, Info, CreditCard, Leaf } from "lucide-react";
+import { RefreshCcw, MapPinned, Info, CreditCard, Leaf, ShieldCheck, Gavel, Loader2 } from "lucide-react";
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { api } from "../api.js";
 import { useAuth } from "../auth/AuthContext.jsx";
 import { FarmMap } from "../components/FarmMap.jsx";
 import { formatArea, formatInr, formatNumber } from "../utils/format.js";
 import { useI18n } from "../i18n/I18nContext.jsx";
+import { ethers } from "ethers";
+import { NFT_ADDRESS, AUCTION_ADDRESS } from "../contracts/addresses.js";
+import NFT_ABI from "../contracts/CarbonCreditNFT_abi.json";
+import AUCTION_ABI from "../contracts/CarbonAuction_abi.json";
 
 export function FarmDetailPage() {
   const { farmId } = useParams();
   const { token } = useAuth();
   const { t } = useI18n();
+  const navigate = useNavigate();
   const [farm, setFarm] = useState(null);
   const [loading, setLoading] = useState(true);
   const [calculating, setCalculating] = useState(false);
+  const [blockchainAction, setBlockchainAction] = useState(false);
   const [error, setError] = useState("");
 
   useEffect(() => {
@@ -34,6 +40,76 @@ export function FarmDetailPage() {
       setError(caughtError.message);
     } finally {
       setCalculating(false);
+    }
+  }
+
+  async function handleMint() {
+    setBlockchainAction(true);
+    setError("");
+    try {
+      if (!window.ethereum) throw new Error("MetaMask not found");
+      const provider = new ethers.BrowserProvider(window.ethereum);
+      const signer = await provider.getSigner();
+      const contract = new ethers.Contract(NFT_ADDRESS, NFT_ABI, signer);
+
+      const metadataUri = `https://carbonx.api/metadata/${farm.id}`;
+      const tx = await contract.safeMint(signer.address, metadataUri);
+      const receipt = await tx.wait();
+
+      // In a real scenario, we'd get the tokenId from events
+      // For this MVP, we can mock/estimate or listen for Transfer event
+      const tokenId = parseInt(receipt.logs[0].topics[3], 16);
+
+      await api.mintFarmNft(token, farm.id, {
+        tokenId,
+        contractAddress: NFT_ADDRESS
+      });
+
+      const updated = await api.getFarm(token, farmId);
+      setFarm(updated.farm);
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setBlockchainAction(false);
+    }
+  }
+
+  async function handleStartAuction() {
+    setBlockchainAction(true);
+    setError("");
+    try {
+        if (!window.ethereum) throw new Error("MetaMask not found");
+        const provider = new ethers.BrowserProvider(window.ethereum);
+        const signer = await provider.getSigner();
+
+        // 1. Approve NFT for Auction contract
+        const nftContract = new ethers.Contract(NFT_ADDRESS, NFT_ABI, signer);
+        const approveTx = await nftContract.approve(AUCTION_ADDRESS, farm.nftTokenId);
+        await approveTx.wait();
+
+        // 2. Create Auction
+        const auctionContract = new ethers.Contract(AUCTION_ADDRESS, AUCTION_ABI, signer);
+        const minBid = ethers.parseEther("0.1"); // Default 0.1 ETH
+        const duration = 86400 * 7; // 7 days
+        const tx = await auctionContract.createAuction(NFT_ADDRESS, farm.nftTokenId, minBid, duration);
+        const receipt = await tx.wait();
+
+        // Find auctionId from event
+        const event = receipt.logs.find(log => log.address.toLowerCase() === AUCTION_ADDRESS.toLowerCase());
+        const blockchainAuctionId = parseInt(receipt.logs[receipt.logs.length - 1].topics[1], 16);
+
+        await api.createAuction(token, {
+            farmId: farm.id,
+            blockchainAuctionId,
+            minBidEth: 0.1,
+            endTime: new Date(Date.now() + duration * 1000).toISOString()
+        });
+
+        navigate('/marketplace');
+    } catch (err) {
+        setError(err.message);
+    } finally {
+        setBlockchainAction(false);
     }
   }
 
@@ -67,15 +143,37 @@ export function FarmDetailPage() {
                 <h1 className="mt-1 font-headline-lg text-primary">{farm.name}</h1>
             </div>
         </div>
-        <button
-            className="btn-secondary h-12 rounded-xl shadow-sm bg-white"
-            disabled={calculating}
-            onClick={recalculate}
-            type="button"
-        >
-          <RefreshCcw size={18} className={calculating ? "animate-spin" : ""} />
-          {calculating ? "Recalculating..." : "Refresh Estimates"}
-        </button>
+        <div className="flex gap-3">
+            <button
+                className="btn-secondary h-12 rounded-xl shadow-sm bg-white"
+                disabled={calculating}
+                onClick={recalculate}
+                type="button"
+            >
+            <RefreshCcw size={18} className={calculating ? "animate-spin" : ""} />
+            {calculating ? "Recalculating..." : "Refresh Estimates"}
+            </button>
+            {farm.status === 'calculated' && (
+                <button
+                    onClick={handleMint}
+                    disabled={blockchainAction}
+                    className="btn-primary h-12 rounded-xl shadow-xl px-6"
+                >
+                    {blockchainAction ? <Loader2 className="animate-spin" size={18} /> : <ShieldCheck size={18} />}
+                    Mint NFT
+                </button>
+            )}
+            {farm.status === 'verified' && !farm.auctionActive && (
+                <button
+                    onClick={handleStartAuction}
+                    disabled={blockchainAction}
+                    className="btn-primary h-12 rounded-xl shadow-xl px-6 bg-secondary hover:bg-secondary-container"
+                >
+                    {blockchainAction ? <Loader2 className="animate-spin" size={18} /> : <Gavel size={18} />}
+                    Start Auction
+                </button>
+            )}
+        </div>
       </div>
 
       {error ? <p className="rounded-xl bg-error-container p-4 text-on-error-container font-medium">{error}</p> : null}
@@ -105,6 +203,12 @@ export function FarmDetailPage() {
                         <dt className="text-on-surface-variant">Market Rate</dt>
                         <dd className="font-bold text-primary">₹ 2,000 / credit</dd>
                     </div>
+                    {farm.nftTokenId && (
+                        <div className="flex justify-between items-center py-3 border-b border-outline-variant">
+                            <dt className="text-on-surface-variant">NFT ID</dt>
+                            <dd className="font-black text-primary">#{farm.nftTokenId}</dd>
+                        </div>
+                    )}
                     <div className="flex justify-between items-center py-3 border-b border-outline-variant">
                         <dt className="text-on-surface-variant">Methodology</dt>
                         <dd className="font-bold text-primary text-right">NDVI-based Sequestration</dd>
@@ -126,9 +230,11 @@ export function FarmDetailPage() {
                         <Info size={18} />
                     </div>
                     <div>
-                        <p className="font-bold text-primary mb-1">What's next?</p>
+                        <p className="font-bold text-primary mb-1">Blockchain Transparency</p>
                         <p className="text-sm text-on-surface-variant leading-relaxed font-medium">
-                            Our team will review your land boundary. Once verified, you'll be eligible to receive carbon credit payments directly to your wallet.
+                            {farm.status === 'calculated'
+                              ? "Verify your carbon credits on-chain by minting them as a unique NFT."
+                              : "Your credits are now a verified NFT on the blockchain. You can list them for auction to industries."}
                         </p>
                     </div>
                 </div>

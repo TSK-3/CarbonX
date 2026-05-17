@@ -1,25 +1,31 @@
-import { BarChart3, CreditCard, FileCheck2, Leaf, MapPinned, Plus, TrendingUp, ChevronRight } from "lucide-react";
+import { BarChart3, CreditCard, FileCheck2, Leaf, MapPinned, Plus, TrendingUp, ChevronRight, ShoppingBag } from "lucide-react";
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { api } from "../api.js";
 import { useAuth } from "../auth/AuthContext.jsx";
 import { formatArea, formatInr, formatNumber } from "../utils/format.js";
 import { useI18n } from "../i18n/I18nContext.jsx";
 
 export function DashboardPage() {
-  const { token } = useAuth();
+  const { token, user } = useAuth();
   const { t } = useI18n();
+  const navigate = useNavigate();
   const [farms, setFarms] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
   useEffect(() => {
+    if (user?.role === 'buyer') {
+        // Buyers might prefer the marketplace as their primary view
+        // navigate('/marketplace');
+    }
+
     api
       .listFarms(token)
       .then((result) => setFarms(result.farms))
       .catch((caughtError) => setError(caughtError.message))
       .finally(() => setLoading(false));
-  }, [token]);
+  }, [token, user]);
 
   const totals = farms.reduce(
     (current, farm) => ({
@@ -29,6 +35,47 @@ export function DashboardPage() {
     }),
     { acres: 0, tco2e: 0, earnings: 0 }
   );
+
+  if (user?.role === 'buyer') {
+    return (
+      <section className="mx-auto max-w-7xl space-y-8 px-5 py-8">
+         <div className="flex flex-col justify-between gap-6 md:flex-row md:items-end">
+            <div>
+            <p className="terra-kicker">Industry Overview</p>
+            <h1 className="mt-1 font-headline-lg text-primary">Carbon Procurement</h1>
+            <p className="mt-2 font-body-md text-on-surface-variant max-w-2xl">
+                Manage your carbon offset portfolio and active bids.
+            </p>
+            </div>
+            <Link to="/marketplace" className="btn-primary h-14 px-6 rounded-xl shadow-xl">
+            <ShoppingBag size={20} />
+            Browse Marketplace
+            </Link>
+        </div>
+
+        <div className="grid gap-6 md:grid-cols-2">
+            <div className="terra-card p-6 flex items-center gap-6">
+                <div className="w-16 h-16 rounded-2xl bg-primary/10 flex items-center justify-center text-primary">
+                    <TrendingUp size={32} />
+                </div>
+                <div>
+                    <h3 className="text-xl font-bold text-primary">Active Bids</h3>
+                    <p className="text-on-surface-variant">Check your current bidding status in the marketplace.</p>
+                </div>
+            </div>
+             <div className="terra-card p-6 flex items-center gap-6">
+                <div className="w-16 h-16 rounded-2xl bg-secondary/10 flex items-center justify-center text-secondary">
+                    <Leaf size={32} />
+                </div>
+                <div>
+                    <h3 className="text-xl font-bold text-primary">Total Offset</h3>
+                    <p className="text-on-surface-variant">0 tCO2e acquired to date.</p>
+                </div>
+            </div>
+        </div>
+      </section>
+    );
+  }
 
   return (
     <section className="mx-auto max-w-7xl space-y-8 px-5 py-8">

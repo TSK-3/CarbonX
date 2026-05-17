@@ -19,6 +19,8 @@ function serializeFarm(farm) {
     tco2eEstimate: farm.tco2e_estimate,
     earningsEstimateInr: farm.earnings_estimate_inr,
     status: farm.status,
+    nftTokenId: farm.nft_token_id,
+    nftContractAddress: farm.nft_contract_address,
     createdAt: farm.created_at
   };
 }
@@ -125,7 +127,7 @@ farmsRouter.post("/:id/calculate", async (req, res, next) => {
       [
         estimates.ndviScore,
         estimates.tco2eEstimate,
-        estimates.earningsEstimateInr,
+        estimates.earnings_estimate_inr,
         farm.id,
         req.user.id
       ]
@@ -135,6 +137,31 @@ farmsRouter.post("/:id/calculate", async (req, res, next) => {
       farm.id,
       req.user.id
     ]);
+    res.json({ farm: serializeFarm(updatedFarm) });
+  } catch (error) {
+    next(error);
+  }
+});
+
+farmsRouter.post("/:id/mint", async (req, res, next) => {
+  try {
+    const { tokenId, contractAddress } = req.body;
+    const farm = await get("SELECT * FROM farms WHERE id = ? AND user_id = ?", [
+      req.params.id,
+      req.user.id
+    ]);
+
+    if (!farm) {
+      res.status(404).json({ message: "Farm not found." });
+      return;
+    }
+
+    await run(
+      `UPDATE farms SET nft_token_id = ?, nft_contract_address = ?, status = 'verified' WHERE id = ?`,
+      [tokenId, contractAddress, farm.id]
+    );
+
+    const updatedFarm = await get("SELECT * FROM farms WHERE id = ?", [farm.id]);
     res.json({ farm: serializeFarm(updatedFarm) });
   } catch (error) {
     next(error);

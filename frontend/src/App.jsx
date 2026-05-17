@@ -8,6 +8,7 @@ import { EarningsPage } from "./pages/EarningsPage.jsx";
 import { NewFarmPage } from "./pages/NewFarmPage.jsx";
 import { SubmissionReviewPage } from "./pages/SubmissionReviewPage.jsx";
 import { VerificationPage } from "./pages/VerificationPage.jsx";
+import { MarketplacePage } from "./pages/MarketplacePage.jsx";
 
 function ProtectedRoute({ children }) {
   const { token } = useAuth();
@@ -55,6 +56,7 @@ export function App() {
             <Route path="farms/:farmId/review" element={<SubmissionReviewPage />} />
             <Route path="verification" element={<VerificationPage />} />
             <Route path="earnings" element={<EarningsPage />} />
+            <Route path="marketplace" element={<MarketplacePage />} />
             <Route path="profile" element={<ProfilePlaceholder />} />
           </Route>
         </Routes>
