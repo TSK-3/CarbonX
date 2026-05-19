@@ -1,6 +1,7 @@
-import { Info, RotateCcw, Save, Undo2, Map as MapIcon, ChevronRight } from "lucide-react";
+import { Info, RotateCcw, Save, Undo2, Map as MapIcon, ChevronRight, X, AlertCircle } from "lucide-react";
 import { useCallback, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { motion, AnimatePresence } from "framer-motion";
 import { api } from "../api.js";
 import { useAuth } from "../auth/AuthContext.jsx";
 import { LandSelectionMap } from "../components/LandSelectionMap.jsx";
@@ -55,18 +56,31 @@ export function NewFarmPage() {
         <form onSubmit={submit} className="flex flex-1 flex-col gap-6">
           <div className="space-y-4">
             <div className="flex flex-col gap-1.5">
-              <label className="font-label-sm text-on-surface-variant px-1">{t("farmName")}</label>
-              <input
-                className="input"
-                placeholder="e.g. Warangal Green Estate"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-              />
+              <label htmlFor="farmName" className="font-label-sm text-on-surface-variant px-1">{t("farmName")}</label>
+              <div className="relative">
+                <input
+                  id="farmName"
+                  className="input pr-10"
+                  placeholder="e.g. Warangal Green Estate"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                />
+                {name && (
+                  <button
+                    type="button"
+                    onClick={() => setName("")}
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-outline hover:text-primary transition-colors"
+                    aria-label="Clear farm name"
+                  >
+                    <X size={18} />
+                  </button>
+                )}
+              </div>
             </div>
 
             <div className="flex flex-col gap-1.5">
-              <label className="font-label-sm text-on-surface-variant px-1">{t("landType")}</label>
-              <select className="input appearance-none bg-surface-container-low" defaultValue="Agroforestry">
+              <label htmlFor="landType" className="font-label-sm text-on-surface-variant px-1">{t("landType")}</label>
+              <select id="landType" className="input appearance-none bg-surface-container-low" defaultValue="Agroforestry">
                 <option>Agroforestry</option>
                 <option>Paddy field</option>
                 <option>Mixed crop</option>
@@ -92,10 +106,28 @@ export function NewFarmPage() {
           <div className="mt-auto space-y-4 pt-6">
             <div className="rounded-2xl bg-primary-container p-5 text-on-primary-container shadow-inner">
                 <p className="text-[10px] font-bold uppercase tracking-[0.15em] opacity-70">{t("estimatedArea")}</p>
-                <p className="mt-1 text-3xl font-black">{formatArea(areaAcres)}</p>
+                <motion.p
+                  animate={{ scale: [0.98, 1], opacity: [0.9, 1] }}
+                  transition={{ duration: 0.2 }}
+                  className="mt-1 text-3xl font-black"
+                >
+                  {formatArea(areaAcres)}
+                </motion.p>
             </div>
 
-            {error ? <p className="text-center text-sm font-semibold text-error">{error}</p> : null}
+            <AnimatePresence>
+              {error && (
+                <motion.div
+                  initial={{ opacity: 0, y: -10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -10 }}
+                  className="flex items-center gap-2 rounded-xl bg-error-container px-3 py-2 text-sm font-semibold text-on-error-container"
+                >
+                  <AlertCircle size={16} className="shrink-0" />
+                  <p>{error}</p>
+                </motion.div>
+              )}
+            </AnimatePresence>
 
             <button
               className="btn-primary h-16 w-full rounded-2xl text-lg shadow-2xl transition-all active:scale-[0.98]"
