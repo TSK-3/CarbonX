@@ -196,6 +196,7 @@ export function LandSelectionMap({ onBoundaryChange }) {
           <input
             type="text"
             placeholder={t("searchLocation")}
+            aria-label={t("searchLocation")}
             className="flex-1 bg-transparent text-sm outline-none"
           />
         </div>
@@ -203,10 +204,20 @@ export function LandSelectionMap({ onBoundaryChange }) {
 
       <div className="absolute right-4 top-20 z-[1000] flex flex-col gap-3">
         <div className="flex flex-col overflow-hidden rounded-xl border border-outline-variant bg-white/90 shadow-lg backdrop-blur-md">
-            <button onClick={handleZoomIn} className="p-3 hover:bg-surface-container transition-colors border-b border-outline-variant" title="Zoom In">
+            <button
+                onClick={handleZoomIn}
+                className="p-3 hover:bg-surface-container transition-colors border-b border-outline-variant"
+                title="Zoom In"
+                aria-label="Zoom In"
+            >
                 <Plus size={20} className="text-primary" />
             </button>
-            <button onClick={handleZoomOut} className="p-3 hover:bg-surface-container transition-colors" title="Zoom Out">
+            <button
+                onClick={handleZoomOut}
+                className="p-3 hover:bg-surface-container transition-colors"
+                title="Zoom Out"
+                aria-label="Zoom Out"
+            >
                 <Minus size={20} className="text-primary" />
             </button>
         </div>
@@ -215,6 +226,7 @@ export function LandSelectionMap({ onBoundaryChange }) {
             onClick={handleLocate}
             className="rounded-xl border border-outline-variant bg-white/90 p-3 text-primary shadow-lg backdrop-blur-md hover:bg-surface-container"
             title="Locate Me"
+            aria-label={t("myLocation")}
         >
           <LocateFixed size={20} />
         </button>
@@ -225,6 +237,7 @@ export function LandSelectionMap({ onBoundaryChange }) {
                 showFtw ? "bg-primary text-white" : "bg-white/90 text-primary hover:bg-surface-container"
             }`}
             title="Toggle Fields of the World"
+            aria-label="Toggle Fields of the World"
         >
           <Layers size={20} />
         </button>
