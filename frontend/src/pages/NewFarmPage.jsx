@@ -1,4 +1,4 @@
-import { Info, RotateCcw, Save, Undo2, Map as MapIcon, ChevronRight } from "lucide-react";
+import { Info, RotateCcw, Save, Undo2, Map as MapIcon, ChevronRight, ChevronDown } from "lucide-react";
 import { useCallback, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { api } from "../api.js";
@@ -55,8 +55,9 @@ export function NewFarmPage() {
         <form onSubmit={submit} className="flex flex-1 flex-col gap-6">
           <div className="space-y-4">
             <div className="flex flex-col gap-1.5">
-              <label className="font-label-sm text-on-surface-variant px-1">{t("farmName")}</label>
+              <label className="font-label-sm text-on-surface-variant px-1" htmlFor="farm-name">{t("farmName")}</label>
               <input
+                id="farm-name"
                 className="input"
                 placeholder="e.g. Warangal Green Estate"
                 value={name}
@@ -65,13 +66,16 @@ export function NewFarmPage() {
             </div>
 
             <div className="flex flex-col gap-1.5">
-              <label className="font-label-sm text-on-surface-variant px-1">{t("landType")}</label>
-              <select className="input appearance-none bg-surface-container-low" defaultValue="Agroforestry">
-                <option>Agroforestry</option>
-                <option>Paddy field</option>
-                <option>Mixed crop</option>
-                <option>Orchard</option>
-              </select>
+              <label className="font-label-sm text-on-surface-variant px-1" htmlFor="land-type">{t("landType")}</label>
+              <div className="relative">
+                <select id="land-type" className="input appearance-none bg-surface-container-low pr-10" defaultValue="Agroforestry">
+                  <option>Agroforestry</option>
+                  <option>Paddy field</option>
+                  <option>Mixed crop</option>
+                  <option>Orchard</option>
+                </select>
+                <ChevronDown size={18} className="absolute right-3 top-1/2 -translate-y-1/2 text-outline pointer-events-none" />
+              </div>
             </div>
           </div>
 
