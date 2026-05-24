@@ -1,4 +1,4 @@
-import { Info, RotateCcw, Save, Undo2, Map as MapIcon, ChevronRight, X, AlertCircle } from "lucide-react";
+import { Info, RotateCcw, Save, Undo2, Map as MapIcon, ChevronRight, X, AlertCircle, ChevronDown } from "lucide-react";
 import { useCallback, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
@@ -80,12 +80,15 @@ export function NewFarmPage() {
 
             <div className="flex flex-col gap-1.5">
               <label htmlFor="landType" className="font-label-sm text-on-surface-variant px-1">{t("landType")}</label>
-              <select id="landType" className="input appearance-none bg-surface-container-low" defaultValue="Agroforestry">
-                <option>Agroforestry</option>
-                <option>Paddy field</option>
-                <option>Mixed crop</option>
-                <option>Orchard</option>
-              </select>
+              <div className="relative">
+                <select id="landType" className="input appearance-none bg-surface-container-low pr-10" defaultValue="Agroforestry">
+                  <option>Agroforestry</option>
+                  <option>Paddy field</option>
+                  <option>Mixed crop</option>
+                  <option>Orchard</option>
+                </select>
+                <ChevronDown size={20} className="absolute right-4 top-1/2 -translate-y-1/2 text-outline pointer-events-none" aria-hidden="true" />
+              </div>
             </div>
           </div>
 
