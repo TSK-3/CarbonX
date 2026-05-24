@@ -9,3 +9,7 @@
 ## 2025-05-16 - [Animated Feedback for Dynamic Metrics]
 **Learning:** When users perform complex actions like drawing farm boundaries, providing immediate, animated feedback on the resulting metrics (like area) confirms the system is responsive. However, using `key`-based re-mounts for high-frequency updates (like area acres changing while dragging) can cause visual "jank".
 **Action:** Use `motion` components to animate metric changes but prefer simple `animate` transitions over `key`-based re-mounting for values that update rapidly during user interaction.
+
+## 2025-05-16 - [Restoring Dropdown Affordance]
+**Learning:** When using `appearance-none` on `<select>` elements to implement custom styling, the native arrow icon is hidden, removing the visual indicator that the field is a dropdown. Manually adding a `ChevronDown` icon in a relative container restores this essential UX affordance.
+**Action:** Always include a visual indicator (like a Chevron) when using `appearance-none` on dropdowns to maintain user expectations of interactivity.
