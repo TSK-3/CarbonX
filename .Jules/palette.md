@@ -6,6 +6,10 @@
 **Learning:** Explicitly associating labels with inputs using `htmlFor` and `id` is more robust for screen readers than simple wrapping. Providing visual icons (like a spinner for loading or an alert icon for errors) alongside text feedback makes the interface more intuitive for all users.
 **Action:** Use explicit label-input associations and include meaningful icons for status changes in forms.
 
+## 2025-05-20 - [Password Visibility Toggle Accessibility]
+**Learning:** Adding a password visibility toggle improves UX, but requires careful ARIA management. Dynamic `aria-label` updates ("Show password" vs "Hide password") ensure screen reader users understand the current state and action. Using `pr-12` on the input prevents text from being obscured by the absolute-positioned toggle button.
+**Action:** Always provide dynamic ARIA labels for visibility toggles and ensure sufficient padding on the input to avoid icon overlap.
+
 ## 2025-05-16 - [Animated Feedback for Dynamic Metrics]
 **Learning:** When users perform complex actions like drawing farm boundaries, providing immediate, animated feedback on the resulting metrics (like area) confirms the system is responsive. However, using `key`-based re-mounts for high-frequency updates (like area acres changing while dragging) can cause visual "jank".
 **Action:** Use `motion` components to animate metric changes but prefer simple `animate` transitions over `key`-based re-mounting for values that update rapidly during user interaction.
