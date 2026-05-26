@@ -9,3 +9,7 @@
 ## 2025-05-16 - [Animated Feedback for Dynamic Metrics]
 **Learning:** When users perform complex actions like drawing farm boundaries, providing immediate, animated feedback on the resulting metrics (like area) confirms the system is responsive. However, using `key`-based re-mounts for high-frequency updates (like area acres changing while dragging) can cause visual "jank".
 **Action:** Use `motion` components to animate metric changes but prefer simple `animate` transitions over `key`-based re-mounting for values that update rapidly during user interaction.
+
+## 2025-05-26 - [Password Visibility Toggle]
+**Learning:** Including a password visibility toggle in authentication forms reduces input errors and improves the user experience, especially on mobile devices or for complex passwords. Using clear ARIA labels ("Show password" / "Hide password") and ensuring the toggle doesn't trigger form submission (via `type="button"`) are essential for accessibility.
+**Action:** Always provide a visibility toggle for password fields in authentication and sensitive configuration forms, following the standard pattern of a relative container with an absolute-positioned toggle button.
