@@ -9,3 +9,7 @@
 ## 2025-05-16 - [Animated Feedback for Dynamic Metrics]
 **Learning:** When users perform complex actions like drawing farm boundaries, providing immediate, animated feedback on the resulting metrics (like area) confirms the system is responsive. However, using `key`-based re-mounts for high-frequency updates (like area acres changing while dragging) can cause visual "jank".
 **Action:** Use `motion` components to animate metric changes but prefer simple `animate` transitions over `key`-based re-mounting for values that update rapidly during user interaction.
+
+## 2025-05-27 - [Password Visibility Toggle]
+**Learning:** Adding a password visibility toggle improves usability by allowing users to verify their input, reducing login failures. Using a relative container for the toggle button and `pr-12` on the input ensures the icon doesn't overlap with text while maintaining consistent spacing.
+**Action:** Implement password toggles for all sensitive inputs using Lucide-react `Eye`/`EyeOff` icons, ensuring proper `aria-label` and `focus-visible` states for accessibility.
