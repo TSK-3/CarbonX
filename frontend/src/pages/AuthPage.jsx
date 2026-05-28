@@ -1,4 +1,4 @@
-import { AlertCircle, Leaf, Loader2, LogIn, ShieldCheck, Sprout, UserPlus, Briefcase, User } from "lucide-react";
+import { AlertCircle, Leaf, Loader2, LogIn, ShieldCheck, Sprout, UserPlus, Briefcase, User, Eye, EyeOff } from "lucide-react";
 import { useState } from "react";
 import { useAuth } from "../auth/AuthContext.jsx";
 import { useI18n } from "../i18n/I18nContext.jsx";
@@ -16,6 +16,7 @@ export function AuthPage() {
   });
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
   function updateValue(event) {
     setValues((current) => ({ ...current, [event.target.name]: event.target.value }));
@@ -194,15 +195,25 @@ export function AuthPage() {
 
               <div className="space-y-1.5">
                 <label className="label" htmlFor="password">Password</label>
-                <input
-                  id="password"
-                  className="input"
-                  name="password"
-                  type="password"
-                  value={values.password}
-                  onChange={updateValue}
-                  placeholder="••••••••"
-                />
+                <div className="relative">
+                  <input
+                    id="password"
+                    className="input pr-12"
+                    name="password"
+                    type={showPassword ? "text" : "password"}
+                    value={values.password}
+                    onChange={updateValue}
+                    placeholder="••••••••"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword(!showPassword)}
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-outline hover:text-primary transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50 rounded"
+                    aria-label={showPassword ? "Hide password" : "Show password"}
+                  >
+                    {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+                  </button>
+                </div>
               </div>
 
               {error ? (
