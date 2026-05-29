@@ -9,3 +9,7 @@
 ## 2025-05-16 - [Animated Feedback for Dynamic Metrics]
 **Learning:** When users perform complex actions like drawing farm boundaries, providing immediate, animated feedback on the resulting metrics (like area) confirms the system is responsive. However, using `key`-based re-mounts for high-frequency updates (like area acres changing while dragging) can cause visual "jank".
 **Action:** Use `motion` components to animate metric changes but prefer simple `animate` transitions over `key`-based re-mounting for values that update rapidly during user interaction.
+
+## 2026-05-29 - [Password Visibility Toggle]
+**Learning:** Adding a password visibility toggle significantly improves UX by allowing users to verify their input, reducing friction during authentication. It must be implemented with accessibility in mind (ARIA labels, keyboard focus) and visual considerations (right padding on input to avoid icon overlap).
+**Action:** Always provide a show/hide toggle for password fields. Use a relative container for the icon button and ensure the input has adequate right padding (e.g., `pr-12`).
